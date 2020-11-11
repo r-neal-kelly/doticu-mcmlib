@@ -45,6 +45,7 @@
       <ConformanceMode>true</ConformanceMode>
       <ForcedIncludeFiles>common/IPrefix.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(doticu_skylib)\include;$(ProjectDir)\include;</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "doticu_skylib/intrinsic.h"
+#include "doticu_skylib/quest.h"
 #include "doticu_skylib/virtual.h"
 #include "doticu_skylib/virtual_class.h"
 #include "doticu_skylib/virtual_machine.h"
@@ -146,7 +147,7 @@ namespace doticu_mcmlib {
                           Bool_t allow_cancel = true,
                           String_t accept_label = "$Accept",
                           String_t cancel_label = "$Cancel",
-                          Callback_t<Bool_t>* user_callback = nullptr);
+                          Callback_i<Bool_t>* user_callback = nullptr);
 
         void Reset_Page();
         void Unlock();
