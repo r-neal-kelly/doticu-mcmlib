@@ -5,31 +5,30 @@
 #pragma once
 
 #include "doticu_skylib/intrinsic.h"
+#include "doticu_skylib/ui.h"
 #include "doticu_skylib/quest.h"
 #include "doticu_skylib/virtual.h"
 #include "doticu_skylib/virtual_class.h"
 #include "doticu_skylib/virtual_machine.h"
 
+#include "doticu_mcmlib/intrinsic.h"
+
 namespace doticu_mcmlib {
 
-    using namespace doticu_skylib;
+    using Variable_t = skylib::Virtual::Variable_t;
+    using Array_t = skylib::Virtual::Array_t;
+    using Class_t = skylib::Virtual::Class_t;
+    using Object_t = skylib::Virtual::Object_t;
+    using Machine_t = skylib::Virtual::Machine_t;
 
-    using Array_t = Virtual::Array_t;
-    using Class_t = Virtual::Class_t;
-    using Machine_t = Virtual::Machine_t;
-    using Object_t = Virtual::Object_t;
-    using Variable_t = Virtual::Variable_t;
-    template <typename T>
-    using Vector_t = Virtual::Vector_t<T>;
-
-    enum Flags : Int_t {
+    enum class Flag_e : Int_t {
         NONE = 0,
         DISABLE = 1 << 0,
         HIDE = 1 << 1,
         UNMAP = 1 << 2,
     };
 
-    enum class Cursor_Fill_Mode_e : Int_t {
+    enum class Cursor_e : Int_t {
         LEFT_TO_RIGHT = 1,
         TOP_TO_BOTTOM = 2,
     };
@@ -42,7 +41,7 @@ namespace doticu_mcmlib {
         COLOR = 4,
     };
 
-    enum class Option_Type_e : Int_t {
+    enum class Option_e : Int_t {
         EMPTY = 0,
         HEADER = 1,
         TEXT = 2,
@@ -54,18 +53,16 @@ namespace doticu_mcmlib {
         INPUT = 8,
     };
 
-    class Config_Base_t : public Quest_t {
+    class Config_Base_t : public skylib::Quest_t {
     public:
-        static String_t Class_Name();
-        static Class_t* Class_Info();
+        static constexpr const char* JOURNAL_MENU   = "Journal Menu";
+        static constexpr const char* ROOT_MENU      = "_root.ConfigPanelFader.configPanel";
 
-        static constexpr const char* JOURNAL_MENU = "Journal Menu";
-        static constexpr const char* ROOT_MENU = "_root.ConfigPanelFader.configPanel";
+        static String_t Class_Name();
+        static Class_t* Class();
 
     public:
         Object_t* Object();
-        Variable_t* Variable(String_t variable_name);
-        Variable_t* Property(String_t property_name);
 
         Variable_t* Current_Page_Name_Variable();
         Variable_t* Current_Page_Number_Variable();
@@ -91,7 +88,7 @@ namespace doticu_mcmlib {
         void Current_Page(String_t name);
         State_e Current_State();
         Int_t Cursor_Position();
-        Cursor_Fill_Mode_e Cursor_Fill_Mode();
+        Cursor_e Cursor_Fill_Mode();
         Array_t* Flags();
         Array_t* Labels();
         Array_t* String_Values();
@@ -99,9 +96,9 @@ namespace doticu_mcmlib {
         Array_t* States();
 
         void Cursor_Position(Int_t cursor_position);
-        void Cursor_Fill_Mode(Cursor_Fill_Mode_e cursor_fill_mode);
+        void Cursor_Fill_Mode(Cursor_e cursor_fill_mode);
 
-        Int_t Pack_Flags(Int_t flags, Option_Type_e option_type);
+        Int_t Pack_Flags(Int_t flags, Option_e option_type);
         Int_t Pack_Option_ID(Int_t page_number, Int_t cursor_position);
 
         void Clear_Buffers();
@@ -112,7 +109,7 @@ namespace doticu_mcmlib {
         String_t Info_Text();
         void Info_Text(String_t info);
 
-        Int_t Add_Option(Option_Type_e option_type, String_t label, String_t string, Float_t number, Int_t flags);
+        Int_t Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Int_t flags);
         Int_t Add_Empty_Option();
         Int_t Add_Header_Option(String_t label, Int_t flags = 0);
         Int_t Add_Text_Option(String_t label, String_t value, Int_t flags = 0);
@@ -154,7 +151,7 @@ namespace doticu_mcmlib {
         void Open_Page(String_t page_name);
 
     public:
-        static void Register_Me(Machine_t* vm);
+        static void Register_Me(Machine_t* machine);
     };
 
 }

@@ -43,7 +43,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <ForcedIncludeFiles>common/IPrefix.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>common/IPrefix.h;</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(doticu_skylib)\include;$(ProjectDir)\include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\doticu_mcmlib\config_base.h" />
+    <ClInclude Include="include\doticu_mcmlib\intrinsic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\doticu_mcmlib\config_base.cpp" />
