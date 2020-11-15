@@ -399,25 +399,77 @@ namespace doticu_mcmlib {
         Number_Option_Value(index, static_cast<Float_t>(key_code), do_render);
     }
 
-    void Config_Base_t::Option_Flags(Int_t option, Int_t flags, Bool_t do_render)
+    void Config_Base_t::Option_Flags(Int_t option, Flag_e flags, Bool_t do_render)
     {
         SKYLIB_ASSERT(Current_State() != State_e::RESET);
+
+        Int_t flags_int = static_cast<Int_t>(flags);
 
         Int_t index = option % 0x100;
 
         Int_t old_flags = Flags()->Point(index)->Int();
         old_flags %= 0x100;
-        old_flags += flags * 0x100;
+        old_flags += flags_int * 0x100;
 
         Vector_t<Int_t> arguments;
         arguments.reserve(2);
         arguments.push_back(index);
-        arguments.push_back(flags);
+        arguments.push_back(flags_int);
 
         UI_t::Run(JOURNAL_MENU, "_root.ConfigPanelFader.configPanel" ".setOptionFlags", arguments);
         if (do_render) {
             UI_t::Run(JOURNAL_MENU, "_root.ConfigPanelFader.configPanel" ".invalidateOptionData");
         }
+    }
+
+    void Config_Base_t::Enable_Option(Int_t option, Bool_t do_render, Bool_t with_unmap)
+    {
+        Option_Flags(option, with_unmap ? Flag_e::UNMAP : Flag_e::NONE, do_render);
+    }
+
+    void Config_Base_t::Disable_Option(Int_t option, Bool_t do_render)
+    {
+        Option_Flags(option, Flag_e::DISABLE, do_render);
+    }
+
+    void Config_Base_t::Show_Option(Int_t option, Bool_t do_render, Bool_t with_unmap)
+    {
+        Enable_Option(option, do_render, with_unmap);
+    }
+
+    void Config_Base_t::Hide_Option(Int_t option, Bool_t do_render)
+    {
+        Option_Flags(option, Flag_e::HIDE, do_render);
+    }
+
+    void Config_Base_t::Flicker_Option(Int_t option, Callback_i<>* ucallback)
+    {
+        using UCallback_t = Callback_i<>;
+
+        Option_Flags(option, Flag_e::DISABLE, true);
+
+        struct VCallback : public Virtual::Callback_t
+        {
+            Config_Base_t* self;
+            Int_t option;
+            UCallback_t* ucallback;
+            VCallback(Config_Base_t* self, Int_t option, UCallback_t* ucallback) :
+                self(self), option(option), ucallback(ucallback)
+            {
+            }
+            void operator()(Variable_t* result)
+            {
+                if (self->Current_State() != State_e::RESET) {
+                    self->Option_Flags(option, Flag_e::NONE, true);
+                }
+
+                if (ucallback) {
+                    ucallback->operator()();
+                    delete ucallback;
+                }
+            }
+        };
+        Virtual::Utils_t::Wait(0.2f, new VCallback(this, option, ucallback));
     }
 
     void Config_Base_t::Show_Message(String_t message,

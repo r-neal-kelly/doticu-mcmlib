@@ -21,7 +21,8 @@ namespace doticu_mcmlib {
     using Object_t = skylib::Virtual::Object_t;
     using Machine_t = skylib::Virtual::Machine_t;
 
-    enum class Flag_e : Int_t {
+    enum class Flag_e : Int_t
+    {
         NONE = 0,
         DISABLE = 1 << 0,
         HIDE = 1 << 1,
@@ -138,7 +139,13 @@ namespace doticu_mcmlib {
         void Input_Option_Value(Int_t option, String_t value, Bool_t do_render = true);
         void Keymap_Option_Value(Int_t option, Int_t key_code, Bool_t do_render = true);
 
-        void Option_Flags(Int_t option, Int_t flags, Bool_t do_render = true);
+        void Option_Flags(Int_t option, Flag_e flags, Bool_t do_render = true);
+
+        void Enable_Option(Int_t option, Bool_t do_render = true, Bool_t with_unmap = false);
+        void Disable_Option(Int_t option, Bool_t do_render = true);
+        void Show_Option(Int_t option, Bool_t do_render = true, Bool_t with_unmap = false);
+        void Hide_Option(Int_t option, Bool_t do_render = true);
+        void Flicker_Option(Int_t option, Callback_i<>* ucallback = nullptr);
 
         void Show_Message(String_t message,
                           Bool_t allow_cancel = true,
