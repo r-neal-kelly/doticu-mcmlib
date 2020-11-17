@@ -99,7 +99,7 @@ namespace doticu_mcmlib {
         void Cursor_Position(Int_t cursor_position);
         void Cursor_Fill_Mode(Cursor_e cursor_fill_mode);
 
-        Int_t Pack_Flags(Int_t flags, Option_e option_type);
+        Int_t Pack_Flags(Flag_e flags, Option_e option_type);
         Int_t Pack_Option_ID(Int_t page_number, Int_t cursor_position);
 
         void Clear_Buffers();
@@ -110,16 +110,16 @@ namespace doticu_mcmlib {
         String_t Info_Text();
         void Info_Text(String_t info);
 
-        Int_t Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Int_t flags);
+        Int_t Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Flag_e flags);
         Int_t Add_Empty_Option();
-        Int_t Add_Header_Option(String_t label, Int_t flags = 0);
-        Int_t Add_Text_Option(String_t label, String_t value, Int_t flags = 0);
-        Int_t Add_Toggle_Option(String_t label, Bool_t is_toggled, Int_t flags = 0);
-        Int_t Add_Slider_Option(String_t label, Float_t value, String_t format = "{0}", Int_t flags = 0);
-        Int_t Add_Menu_Option(String_t label, String_t value, Int_t flags = 0);
-        Int_t Add_Color_Option(String_t label, Int_t color, Int_t flags = 0);
-        Int_t Add_Keymap_Option(String_t label, Int_t key_code, Int_t flags = 0);
-        Int_t Add_Input_Option(String_t label, String_t value, Int_t flags = 0);
+        Int_t Add_Header_Option(String_t label, Flag_e flags = Flag_e::NONE);
+        Int_t Add_Text_Option(String_t label, String_t value, Flag_e flags = Flag_e::NONE);
+        Int_t Add_Toggle_Option(String_t label, Bool_t is_toggled, Flag_e flags = Flag_e::NONE);
+        Int_t Add_Slider_Option(String_t label, Float_t value, String_t format = "{0}", Flag_e flags = Flag_e::NONE);
+        Int_t Add_Menu_Option(String_t label, String_t value, Flag_e flags = Flag_e::NONE);
+        Int_t Add_Color_Option(String_t label, Int_t color, Flag_e flags = Flag_e::NONE);
+        Int_t Add_Keymap_Option(String_t label, Int_t key_code, Flag_e flags = Flag_e::NONE);
+        Int_t Add_Input_Option(String_t label, String_t value, Flag_e flags = Flag_e::NONE);
 
         void Number_Option_Value(Int_t index, Float_t value, Bool_t do_render);
         void String_Option_Value(Int_t index, String_t value, Bool_t do_render);

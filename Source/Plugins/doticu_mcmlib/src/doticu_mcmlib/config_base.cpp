@@ -127,9 +127,9 @@ namespace doticu_mcmlib {
         Cursor_Fill_Mode_Variable()->Int(static_cast<Int_t>(cursor_fill_mode));
     }
 
-    Int_t Config_Base_t::Pack_Flags(Int_t flags, Option_e option_type)
+    Int_t Config_Base_t::Pack_Flags(Flag_e flags, Option_e option_type)
     {
-        return (flags * 0x100) + static_cast<Int_t>(option_type);
+        return (static_cast<Int_t>(flags) * 0x100) + static_cast<Int_t>(option_type);
     }
 
     Int_t Config_Base_t::Pack_Option_ID(Int_t page_number, Int_t cursor_position)
@@ -190,7 +190,7 @@ namespace doticu_mcmlib {
         Info_Text_Variable()->String(info);
     }
 
-    Int_t Config_Base_t::Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Int_t flags)
+    Int_t Config_Base_t::Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Flag_e flags)
     {
         SKYLIB_ASSERT(label);
         SKYLIB_ASSERT(string);
@@ -218,45 +218,45 @@ namespace doticu_mcmlib {
 
     Int_t Config_Base_t::Add_Empty_Option()
     {
-        return Add_Option(Option_e::EMPTY, "", "", 0.0f, 0);
+        return Add_Option(Option_e::EMPTY, "", "", 0.0f, Flag_e::NONE);
     }
 
-    Int_t Config_Base_t::Add_Header_Option(String_t label, Int_t flags)
+    Int_t Config_Base_t::Add_Header_Option(String_t label, Flag_e flags)
     {
         return Add_Option(Option_e::HEADER, label, "", 0.0f, flags);
     }
 
-    Int_t Config_Base_t::Add_Text_Option(String_t label, String_t value, Int_t flags)
+    Int_t Config_Base_t::Add_Text_Option(String_t label, String_t value, Flag_e flags)
     {
         return Add_Option(Option_e::TEXT, label, value, 0.0f, flags);
     }
 
-    Int_t Config_Base_t::Add_Toggle_Option(String_t label, Bool_t is_toggled, Int_t flags)
+    Int_t Config_Base_t::Add_Toggle_Option(String_t label, Bool_t is_toggled, Flag_e flags)
     {
         return Add_Option(Option_e::TOGGLE, label, "", static_cast<Float_t>(is_toggled), flags);
     }
 
-    Int_t Config_Base_t::Add_Slider_Option(String_t label, Float_t value, String_t format, Int_t flags)
+    Int_t Config_Base_t::Add_Slider_Option(String_t label, Float_t value, String_t format, Flag_e flags)
     {
         return Add_Option(Option_e::SLIDER, label, format, value, flags);
     }
 
-    Int_t Config_Base_t::Add_Menu_Option(String_t label, String_t value, Int_t flags)
+    Int_t Config_Base_t::Add_Menu_Option(String_t label, String_t value, Flag_e flags)
     {
         return Add_Option(Option_e::MENU, label, value, 0.0f, flags);
     }
 
-    Int_t Config_Base_t::Add_Color_Option(String_t label, Int_t color, Int_t flags)
+    Int_t Config_Base_t::Add_Color_Option(String_t label, Int_t color, Flag_e flags)
     {
         return Add_Option(Option_e::COLOR, label, "", static_cast<Float_t>(color), flags);
     }
 
-    Int_t Config_Base_t::Add_Keymap_Option(String_t label, Int_t key_code, Int_t flags)
+    Int_t Config_Base_t::Add_Keymap_Option(String_t label, Int_t key_code, Flag_e flags)
     {
         return Add_Option(Option_e::KEYMAP, label, "", static_cast<Float_t>(key_code), flags);
     }
 
-    Int_t Config_Base_t::Add_Input_Option(String_t label, String_t value, Int_t flags)
+    Int_t Config_Base_t::Add_Input_Option(String_t label, String_t value, Flag_e flags)
     {
         return Add_Option(Option_e::INPUT, label, value, 0.0f, flags);
     }
