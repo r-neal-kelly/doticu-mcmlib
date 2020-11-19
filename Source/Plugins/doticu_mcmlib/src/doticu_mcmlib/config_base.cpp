@@ -23,24 +23,44 @@ namespace doticu_mcmlib {
     Class_t* Config_Base_t::Class()         { DEFINE_CLASS(); }
     Object_t* Config_Base_t::Object()       { DEFINE_OBJECT(); }
 
-    Variable_t* Config_Base_t::Current_Page_Name_Variable()         { DEFINE_VARIABLE("_currentPage"); }
-    Variable_t* Config_Base_t::Current_Page_Number_Variable()       { DEFINE_VARIABLE("_currentPageNum"); }
-    Variable_t* Config_Base_t::Current_State_Variable()             { DEFINE_VARIABLE("_state"); }
-    Variable_t* Config_Base_t::Cursor_Position_Variable()           { DEFINE_VARIABLE("_cursorPosition"); }
-    Variable_t* Config_Base_t::Cursor_Fill_Mode_Variable()          { DEFINE_VARIABLE("_cursorFillMode"); }
-    Variable_t* Config_Base_t::Flags_Variable()                     { DEFINE_VARIABLE("_optionFlagsBuf"); }
-    Variable_t* Config_Base_t::Labels_Variable()                    { DEFINE_VARIABLE("_textBuf"); }
-    Variable_t* Config_Base_t::String_Values_Variable()             { DEFINE_VARIABLE("_strValueBuf"); }
-    Variable_t* Config_Base_t::Number_Values_Variable()             { DEFINE_VARIABLE("_numValueBuf"); }
-    Variable_t* Config_Base_t::States_Variable()                    { DEFINE_VARIABLE("_stateOptionMap"); }
-    Variable_t* Config_Base_t::Info_Text_Variable()                 { DEFINE_VARIABLE("_infoText"); }
-    Variable_t* Config_Base_t::Slider_Parameters_Variable()         { DEFINE_VARIABLE("_sliderParams"); }
-    Variable_t* Config_Base_t::Menu_Parameters_Variable()           { DEFINE_VARIABLE("_menuParams"); }
-    Variable_t* Config_Base_t::Is_Waiting_For_Message_Variable()    { DEFINE_VARIABLE("_waitForMessage"); }
-    Variable_t* Config_Base_t::Message_Result_Variable()            { DEFINE_VARIABLE("_messageResult"); }
+    Variable_t*         Config_Base_t::Current_Page_Name_Variable()         { DEFINE_VARIABLE("_currentPage"); }
+    Variable_t*         Config_Base_t::Current_Page_Number_Variable()       { DEFINE_VARIABLE("_currentPageNum"); }
+    Variable_t*         Config_Base_t::Current_State_Variable()             { DEFINE_VARIABLE("_state"); }
+    Variable_t*         Config_Base_t::Cursor_Position_Variable()           { DEFINE_VARIABLE("_cursorPosition"); }
+    Variable_t*         Config_Base_t::Cursor_Fill_Mode_Variable()          { DEFINE_VARIABLE("_cursorFillMode"); }
+    Variable_t*         Config_Base_t::Flags_Variable()                     { DEFINE_VARIABLE("_optionFlagsBuf"); }
+    Variable_t*         Config_Base_t::Labels_Variable()                    { DEFINE_VARIABLE("_textBuf"); }
+    Variable_t*         Config_Base_t::String_Values_Variable()             { DEFINE_VARIABLE("_strValueBuf"); }
+    Variable_t*         Config_Base_t::Number_Values_Variable()             { DEFINE_VARIABLE("_numValueBuf"); }
+    Variable_t*         Config_Base_t::States_Variable()                    { DEFINE_VARIABLE("_stateOptionMap"); }
+    Variable_t*         Config_Base_t::Info_Text_Variable()                 { DEFINE_VARIABLE("_infoText"); }
+    Variable_t*         Config_Base_t::Slider_Parameters_Variable()         { DEFINE_VARIABLE("_sliderParams"); }
+    Variable_t*         Config_Base_t::Menu_Parameters_Variable()           { DEFINE_VARIABLE("_menuParams"); }
+    Variable_t*         Config_Base_t::Is_Waiting_For_Message_Variable()    { DEFINE_VARIABLE("_waitForMessage"); }
+    Variable_t*         Config_Base_t::Message_Result_Variable()            { DEFINE_VARIABLE("_messageResult"); }
 
-    Variable_t* Config_Base_t::Mod_Name_Property()                  { DEFINE_PROPERTY("ModName"); }
-    Variable_t* Config_Base_t::Pages_Property()                     { DEFINE_PROPERTY("Pages"); }
+    String_Variable_t*  Config_Base_t::Mod_Name_Property()                  { DEFINE_STRING_VARIABLE("::ModName_var"); }
+    Variable_t*         Config_Base_t::Pages_Property()                     { DEFINE_VARIABLE("::Pages_var"); }
+
+    String_t Config_Base_t::Mod_Name()
+    {
+        return Mod_Name_Property()->Value();
+    }
+
+    void Config_Base_t::Mod_Name(String_t value)
+    {
+        Mod_Name_Property()->Value(value);
+    }
+
+    Array_t* Config_Base_t::Pages()
+    {
+        return Pages_Property()->Array();
+    }
+
+    void Config_Base_t::Pages(Vector_t<String_t> values)
+    {
+        Pages_Property()->Pack(values);
+    }
 
     String_t Config_Base_t::Current_Page_Name()
     {

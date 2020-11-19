@@ -10,16 +10,19 @@
 #include "doticu_skylib/virtual.h"
 #include "doticu_skylib/virtual_class.h"
 #include "doticu_skylib/virtual_machine.h"
+#include "doticu_skylib/virtual_variable.h"
 
 #include "doticu_mcmlib/intrinsic.h"
 
 namespace doticu_mcmlib {
 
-    using Variable_t = skylib::Virtual::Variable_t;
     using Array_t = skylib::Virtual::Array_t;
     using Class_t = skylib::Virtual::Class_t;
     using Object_t = skylib::Virtual::Object_t;
     using Machine_t = skylib::Virtual::Machine_t;
+    using Variable_t = skylib::Virtual::Variable_t;
+    using String_Variable_t = skylib::Virtual::String_Variable_t;
+    using String_Property_t = skylib::Virtual::String_Property_t;
 
     enum class Flag_e : Int_t
     {
@@ -65,24 +68,29 @@ namespace doticu_mcmlib {
     public:
         Object_t* Object();
 
-        Variable_t* Current_Page_Name_Variable();
-        Variable_t* Current_Page_Number_Variable();
-        Variable_t* Current_State_Variable(); // Int_t
-        Variable_t* Cursor_Position_Variable();
-        Variable_t* Cursor_Fill_Mode_Variable();
-        Variable_t* Flags_Variable(); // Array_t* of Int_t
-        Variable_t* Labels_Variable(); // Array_t* of String_t
-        Variable_t* String_Values_Variable(); // Array_t* of String_t
-        Variable_t* Number_Values_Variable(); // Array_t* of Float_t
-        Variable_t* States_Variable();
-        Variable_t* Info_Text_Variable();
-        Variable_t* Slider_Parameters_Variable(); // Array_t* of Float_t
-        Variable_t* Menu_Parameters_Variable(); // Array_t* of Int_t
-        Variable_t* Is_Waiting_For_Message_Variable(); // Bool_t
-        Variable_t* Message_Result_Variable(); // Bool_t
+        Variable_t*         Current_Page_Name_Variable();
+        Variable_t*         Current_Page_Number_Variable();
+        Variable_t*         Current_State_Variable(); // Int_t
+        Variable_t*         Cursor_Position_Variable();
+        Variable_t*         Cursor_Fill_Mode_Variable();
+        Variable_t*         Flags_Variable(); // Array_t* of Int_t
+        Variable_t*         Labels_Variable(); // Array_t* of String_t
+        Variable_t*         String_Values_Variable(); // Array_t* of String_t
+        Variable_t*         Number_Values_Variable(); // Array_t* of Float_t
+        Variable_t*         States_Variable();
+        Variable_t*         Info_Text_Variable();
+        Variable_t*         Slider_Parameters_Variable(); // Array_t* of Float_t
+        Variable_t*         Menu_Parameters_Variable(); // Array_t* of Int_t
+        Variable_t*         Is_Waiting_For_Message_Variable(); // Bool_t
+        Variable_t*         Message_Result_Variable(); // Bool_t
 
-        Variable_t* Mod_Name_Property(); // String_t
-        Variable_t* Pages_Property(); // Array_t* of String_t
+        String_Variable_t*  Mod_Name_Property();
+        Variable_t*         Pages_Property(); // Array_t* of String_t
+
+        String_t    Mod_Name();
+        void        Mod_Name(String_t value);
+        Array_t*    Pages();
+        void        Pages(Vector_t<String_t> values);
 
         String_t Current_Page_Name();
         Int_t Current_Page_Number();
