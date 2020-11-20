@@ -2,45 +2,81 @@
     Copyright © 2020 r-neal-kelly, aka doticu
 */
 
-#include "doticu_skylib/utils.h"
 #include "doticu_skylib/form.h"
-#include "doticu_skylib/virtual_array.h"
+#include "doticu_skylib/ui.h"
+#include "doticu_skylib/utils.h"
 #include "doticu_skylib/virtual_arguments.h"
+#include "doticu_skylib/virtual_array.h"
 #include "doticu_skylib/virtual_callback.h"
-#include "doticu_skylib/virtual_object.h"
+#include "doticu_skylib/virtual_class.h"
+#include "doticu_skylib/virtual_machine.h"
 #include "doticu_skylib/virtual_macros.h"
+#include "doticu_skylib/virtual_object.h"
 #include "doticu_skylib/virtual_utils.h"
+#include "doticu_skylib/virtual_variable.h"
 
 #include "doticu_mcmlib/config_base.h"
 
 namespace doticu_mcmlib {
 
-    namespace Virtual = skylib::Virtual;
-
     using UI_t = skylib::UI_t;
 
-    String_t Config_Base_t::Class_Name()    { DEFINE_CLASS_NAME("SKI_ConfigBase"); }
-    Class_t* Config_Base_t::Class()         { DEFINE_CLASS(); }
-    Object_t* Config_Base_t::Object()       { DEFINE_OBJECT(); }
+    namespace V {
 
-    Variable_t*         Config_Base_t::Current_Page_Name_Variable()         { DEFINE_VARIABLE("_currentPage"); }
-    Variable_t*         Config_Base_t::Current_Page_Number_Variable()       { DEFINE_VARIABLE("_currentPageNum"); }
-    Variable_t*         Config_Base_t::Current_State_Variable()             { DEFINE_VARIABLE("_state"); }
-    Variable_t*         Config_Base_t::Cursor_Position_Variable()           { DEFINE_VARIABLE("_cursorPosition"); }
-    Variable_t*         Config_Base_t::Cursor_Fill_Mode_Variable()          { DEFINE_VARIABLE("_cursorFillMode"); }
-    Variable_t*         Config_Base_t::Flags_Variable()                     { DEFINE_VARIABLE("_optionFlagsBuf"); }
-    Variable_t*         Config_Base_t::Labels_Variable()                    { DEFINE_VARIABLE("_textBuf"); }
-    Variable_t*         Config_Base_t::String_Values_Variable()             { DEFINE_VARIABLE("_strValueBuf"); }
-    Variable_t*         Config_Base_t::Number_Values_Variable()             { DEFINE_VARIABLE("_numValueBuf"); }
-    Variable_t*         Config_Base_t::States_Variable()                    { DEFINE_VARIABLE("_stateOptionMap"); }
-    Variable_t*         Config_Base_t::Info_Text_Variable()                 { DEFINE_VARIABLE("_infoText"); }
-    Variable_t*         Config_Base_t::Slider_Parameters_Variable()         { DEFINE_VARIABLE("_sliderParams"); }
-    Variable_t*         Config_Base_t::Menu_Parameters_Variable()           { DEFINE_VARIABLE("_menuParams"); }
-    Variable_t*         Config_Base_t::Is_Waiting_For_Message_Variable()    { DEFINE_VARIABLE("_waitForMessage"); }
-    Variable_t*         Config_Base_t::Message_Result_Variable()            { DEFINE_VARIABLE("_messageResult"); }
+        using Arguments_t   = skylib::Virtual::Arguments_t;
+        using Callback_i    = skylib::Virtual::Callback_i;
+        using Callback_t    = skylib::Virtual::Callback_t;
+        using Utils_t       = skylib::Virtual::Utils_t;
 
-    String_Variable_t*  Config_Base_t::Mod_Name_Property()                  { DEFINE_STRING_VARIABLE("::ModName_var"); }
-    Variable_t*         Config_Base_t::Pages_Property()                     { DEFINE_VARIABLE("::Pages_var"); }
+    }
+
+    Option_t::Option_t(u16 page, u16 position) :
+        page(page), position(position)
+    {
+    }
+
+    Option_t::Option_t(u32 packed_option) :
+        page(packed_option >> 8), position(packed_option & 0xFF)
+    {
+    }
+
+    Option_t::Option_t(Int_t packed_option) :
+        Option_t(static_cast<u32>(packed_option))
+    {
+    }
+
+    Option_t::operator u32()
+    {
+        return (static_cast<skylib::u32>(page) << 8) | static_cast<skylib::u32>(position & 0xFF);
+    }
+
+    Option_t::operator Int_t()
+    {
+        return static_cast<Int_t>(operator u32());
+    }
+
+    String_t                Config_Base_t::Class_Name()                         { DEFINE_CLASS_NAME("SKI_ConfigBase"); }
+    V::Class_t*             Config_Base_t::Class()                              { DEFINE_CLASS(); }
+    V::Object_t*            Config_Base_t::Object()                             { DEFINE_OBJECT(); }
+
+    V::Variable_t*          Config_Base_t::Current_Page_Name_Variable()         { DEFINE_VARIABLE("_currentPage"); }
+    V::Variable_t*          Config_Base_t::Current_Page_Number_Variable()       { DEFINE_VARIABLE("_currentPageNum"); }
+    V::Variable_t*          Config_Base_t::Current_State_Variable()             { DEFINE_VARIABLE("_state"); }
+    V::Variable_t*          Config_Base_t::Cursor_Position_Variable()           { DEFINE_VARIABLE("_cursorPosition"); }
+    V::Variable_t*          Config_Base_t::Cursor_Fill_Mode_Variable()          { DEFINE_VARIABLE("_cursorFillMode"); }
+    V::Variable_t*          Config_Base_t::Flags_Variable()                     { DEFINE_VARIABLE("_optionFlagsBuf"); }
+    V::Variable_t*          Config_Base_t::Labels_Variable()                    { DEFINE_VARIABLE("_textBuf"); }
+    V::Variable_t*          Config_Base_t::String_Values_Variable()             { DEFINE_VARIABLE("_strValueBuf"); }
+    V::Variable_t*          Config_Base_t::Number_Values_Variable()             { DEFINE_VARIABLE("_numValueBuf"); }
+    V::Variable_t*          Config_Base_t::States_Variable()                    { DEFINE_VARIABLE("_stateOptionMap"); }
+    V::Variable_t*          Config_Base_t::Info_Text_Variable()                 { DEFINE_VARIABLE("_infoText"); }
+    V::Variable_t*          Config_Base_t::Slider_Parameters_Variable()         { DEFINE_VARIABLE("_sliderParams"); }
+    V::Variable_t*          Config_Base_t::Menu_Parameters_Variable()           { DEFINE_VARIABLE("_menuParams"); }
+    V::Variable_t*          Config_Base_t::Is_Waiting_For_Message_Variable()    { DEFINE_VARIABLE("_waitForMessage"); }
+    V::Variable_t*          Config_Base_t::Message_Result_Variable()            { DEFINE_VARIABLE("_messageResult"); }
+
+    V::String_Variable_t*   Config_Base_t::Mod_Name_Property()                  { DEFINE_STRING_VARIABLE("::ModName_var"); }
+    V::Variable_t*          Config_Base_t::Pages_Property()                     { DEFINE_VARIABLE("::Pages_var"); }
 
     String_t Config_Base_t::Mod_Name()
     {
@@ -52,7 +88,7 @@ namespace doticu_mcmlib {
         Mod_Name_Property()->Value(value);
     }
 
-    Array_t* Config_Base_t::Pages()
+    V::Array_t* Config_Base_t::Pages()
     {
         return Pages_Property()->Array();
     }
@@ -74,7 +110,7 @@ namespace doticu_mcmlib {
 
     void Config_Base_t::Current_Page(String_t name)
     {
-        Array_t* pages = Pages_Property()->Array();
+        V::Array_t* pages = Pages_Property()->Array();
         if (pages) {
             for (size_t idx = 0, count = pages->count; idx < count; idx += 1) {
                 String_t page = pages->Point(idx)->String();
@@ -97,46 +133,46 @@ namespace doticu_mcmlib {
         return static_cast<State_e>(Current_State_Variable()->Int());
     }
 
+    V::Array_t* Config_Base_t::Flags()
+    {
+        return Flags_Variable()->Array();
+    }
+
+    V::Array_t* Config_Base_t::Labels()
+    {
+        return Labels_Variable()->Array();
+    }
+
+    V::Array_t* Config_Base_t::String_Values()
+    {
+        return String_Values_Variable()->Array();
+    }
+
+    V::Array_t* Config_Base_t::Number_Values()
+    {
+        return Number_Values_Variable()->Array();
+    }
+
+    V::Array_t* Config_Base_t::States()
+    {
+        return States_Variable()->Array();
+    }
+
     Int_t Config_Base_t::Cursor_Position()
     {
         return Cursor_Position_Variable()->Int();
     }
 
+    void Config_Base_t::Cursor_Position(Int_t cursor_position)
+    {
+        SKYLIB_ASSERT(cursor_position < MAX_POSITIONS && cursor_position >= -1);
+
+        Cursor_Position_Variable()->Int(cursor_position);
+    }
+
     Cursor_e Config_Base_t::Cursor_Fill_Mode()
     {
         return static_cast<Cursor_e>(Cursor_Fill_Mode_Variable()->Int());
-    }
-
-    Array_t* Config_Base_t::Flags()
-    {
-        return Flags_Variable()->Array();
-    }
-
-    Array_t* Config_Base_t::Labels()
-    {
-        return Labels_Variable()->Array();
-    }
-
-    Array_t* Config_Base_t::String_Values()
-    {
-        return String_Values_Variable()->Array();
-    }
-
-    Array_t* Config_Base_t::Number_Values()
-    {
-        return Number_Values_Variable()->Array();
-    }
-
-    Array_t* Config_Base_t::States()
-    {
-        return States_Variable()->Array();
-    }
-
-    void Config_Base_t::Cursor_Position(Int_t cursor_position)
-    {
-        SKYLIB_ASSERT(cursor_position < 128 && cursor_position >= -1);
-
-        Cursor_Position_Variable()->Int(cursor_position);
     }
 
     void Config_Base_t::Cursor_Fill_Mode(Cursor_e cursor_fill_mode)
@@ -152,18 +188,13 @@ namespace doticu_mcmlib {
         return (static_cast<Int_t>(flags) * 0x100) + static_cast<Int_t>(option_type);
     }
 
-    Int_t Config_Base_t::Pack_Option_ID(Int_t page_number, Int_t cursor_position)
-    {
-        return (page_number * 0x100) + cursor_position;
-    }
-
     void Config_Base_t::Clear_Buffers()
     {
-        Array_t* flags = Flags();
-        Array_t* labels = Labels();
-        Array_t* strings = String_Values();
-        Array_t* numbers = Number_Values();
-        Array_t* states = States();
+        V::Array_t* flags = Flags();
+        V::Array_t* labels = Labels();
+        V::Array_t* strings = String_Values();
+        V::Array_t* numbers = Number_Values();
+        V::Array_t* states = States();
 
         for (size_t idx = 0, count = 128; idx < count; idx += 1) {
             flags->Point(idx)->Int(0);
@@ -179,7 +210,7 @@ namespace doticu_mcmlib {
 
     void Config_Base_t::Write_Buffers()
     {
-        Array_t* flags = Flags();
+        V::Array_t* flags = Flags();
         Int_t option_count = 0;
         for (size_t idx = 0, count = 128; idx < count; idx += 1) {
             Int_t flag = flags->Point(idx)->Int();
@@ -210,6 +241,14 @@ namespace doticu_mcmlib {
         Info_Text_Variable()->String(info);
     }
 
+    Bool_t Config_Base_t::Can_Add_Options(Int_t count)
+    {
+        if (count < 0) {
+            count = 0;
+        }
+        return count + Cursor_Position() <= MAX_POSITIONS;
+    }
+
     Int_t Config_Base_t::Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Flag_e flags)
     {
         SKYLIB_ASSERT(label);
@@ -230,7 +269,7 @@ namespace doticu_mcmlib {
                 Cursor_Position(new_position);
             }
 
-            return Pack_Option_ID(Current_Page_Number(), position);
+            return Option_t(Current_Page_Number(), position);
         } else {
             return -1;
         }
@@ -333,7 +372,7 @@ namespace doticu_mcmlib {
     {
         SKYLIB_ASSERT(Current_State() == State_e::SLIDER);
 
-        Array_t* slider_parameters = Slider_Parameters_Variable()->Array();
+        V::Array_t* slider_parameters = Slider_Parameters_Variable()->Array();
         slider_parameters->Point(2)->Float(min);
         slider_parameters->Point(3)->Float(max);
     }
@@ -468,7 +507,7 @@ namespace doticu_mcmlib {
 
         Option_Flags(option, Flag_e::DISABLE, true);
 
-        struct VCallback : public Virtual::Callback_t
+        struct VCallback : public V::Callback_t
         {
             Config_Base_t* self;
             Int_t option;
@@ -477,7 +516,7 @@ namespace doticu_mcmlib {
                 self(self), option(option), ucallback(ucallback)
             {
             }
-            void operator()(Variable_t* result)
+            void operator()(V::Variable_t* result)
             {
                 if (self->Current_State() != State_e::RESET) {
                     self->Option_Flags(option, Flag_e::NONE, true);
@@ -489,7 +528,7 @@ namespace doticu_mcmlib {
                 }
             }
         };
-        Virtual::Utils_t::Wait(0.2f, new VCallback(this, option, ucallback));
+        V::Utils_t::Wait(0.2f, new VCallback(this, option, ucallback));
     }
 
     void Config_Base_t::Show_Message(String_t message,
@@ -517,17 +556,17 @@ namespace doticu_mcmlib {
             Register_Mod_Event("SKICP_messageDialogClosed", "OnMessageDialogClose");
             UI_t::Run(JOURNAL_MENU, "_root.ConfigPanelFader.configPanel" ".showMessageDialog", args);
 
-            struct Waiter : Virtual::Callback_t {
+            struct Waiter : V::Callback_t {
                 Config_Base_t* self;
                 UCallback_t* user_callback;
                 Waiter(Config_Base_t* self, UCallback_t* user_callback) :
                     self(self), user_callback(user_callback)
                 {
                 }
-                void operator()(Variable_t* result)
+                void operator()(V::Variable_t* result)
                 {
                     if (self->Is_Waiting_For_Message_Variable()->Bool()) {
-                        Virtual::Utils_t::Wait(0.1f, new Waiter(self, user_callback));
+                        V::Utils_t::Wait(0.1f, new Waiter(self, user_callback));
                     } else {
                         self->Unregister_Mod_Event("SKICP_messageDialogClosed");
                         if (user_callback) {
@@ -537,7 +576,7 @@ namespace doticu_mcmlib {
                     }
                 }
             };
-            Virtual::Utils_t::Wait(0.1f, new Waiter(this, user_callback));
+            V::Utils_t::Wait(0.1f, new Waiter(this, user_callback));
         } else {
             if (user_callback) {
                 user_callback->operator()(false);
@@ -559,19 +598,19 @@ namespace doticu_mcmlib {
     void Config_Base_t::Open_Page(String_t page_name)
     {
         if (Current_State() == State_e::RESET) {
-            struct VCallback : public Virtual::Callback_t {
+            struct VCallback : public V::Callback_t {
                 Config_Base_t* self;
                 String_t page_name;
                 VCallback(Config_Base_t* self, String_t page_name) :
                     self(self), page_name(page_name)
                 {
                 }
-                void operator()(Variable_t* result)
+                void operator()(V::Variable_t* result)
                 {
                     self->Open_Page(page_name);
                 }
             };
-            Virtual::Utils_t::Wait(0.1f, new VCallback(this, page_name));
+            V::Utils_t::Wait(0.1f, new VCallback(this, page_name));
         } else {
             Current_Page(page_name);
             if (page_name && page_name.data && page_name.data[0]) {
@@ -583,7 +622,7 @@ namespace doticu_mcmlib {
             Current_State_Variable()->Int(static_cast<Int_t>(State_e::RESET));
             Clear_Buffers();
 
-            struct VArguments : public Virtual::Arguments_t {
+            struct VArguments : public V::Arguments_t {
                 String_t page_name;
                 VArguments(String_t page_name) :
                     page_name(page_name)
@@ -596,24 +635,24 @@ namespace doticu_mcmlib {
                     return true;
                 }
             } varguments(page_name);
-            struct VCallback : public Virtual::Callback_t {
+            struct VCallback : public V::Callback_t {
                 Config_Base_t* self;
                 VCallback(Config_Base_t* self) :
                     self(self)
                 {
                 }
-                void operator()(Variable_t* result)
+                void operator()(V::Variable_t* result)
                 {
                     self->Write_Buffers();
                     self->Current_State_Variable()->Int(static_cast<Int_t>(State_e::DEFAULT));
                 }
             };
-            Virtual::Callback_i* vcallback = new VCallback(this);
-            Virtual::Machine_t::Self()->Call_Method(this, Class_Name(), "OnPageReset", &varguments, &vcallback);
+            V::Callback_i* vcallback = new VCallback(this);
+            V::Machine_t::Self()->Call_Method(this, Class_Name(), "OnPageReset", &varguments, &vcallback);
         }
     }
 
-    void Config_Base_t::Register_Me(Machine_t* machine)
+    void Config_Base_t::Register_Me(V::Machine_t* machine)
     {
         #define METHOD(STR_FUNC_, ARG_NUM_, RETURN_, METHOD_, ...)  \
         M                                                           \
