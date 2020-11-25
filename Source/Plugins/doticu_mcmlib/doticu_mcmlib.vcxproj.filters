@@ -27,4 +27,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="include\doticu_mcmlib\config_base_macros.h" />
+  </ItemGroup>
 </Project>
