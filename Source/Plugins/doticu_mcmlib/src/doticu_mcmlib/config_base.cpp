@@ -2,9 +2,12 @@
     Copyright © 2020 r-neal-kelly, aka doticu
 */
 
+#include "doticu_skylib/cstring.h"
+
 #include "doticu_skylib/form.h"
 #include "doticu_skylib/ui.h"
-#include "doticu_skylib/utils.h"
+#include "doticu_skylib/ui.inl"
+
 #include "doticu_skylib/virtual_arguments.h"
 #include "doticu_skylib/virtual_array.h"
 #include "doticu_skylib/virtual_callback.h"
@@ -251,8 +254,8 @@ namespace doticu_mcmlib {
 
     Int_t Config_Base_t::Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Flag_e flags)
     {
-        SKYLIB_ASSERT(label);
-        SKYLIB_ASSERT(string);
+        SKYLIB_ASSERT(label.data);
+        SKYLIB_ASSERT(string.data);
         SKYLIB_ASSERT(Current_State() == State_e::RESET);
 
         Int_t position = Cursor_Position();
@@ -628,7 +631,7 @@ namespace doticu_mcmlib {
                     page_name(page_name)
                 {
                 }
-                Bool_t operator()(Array_t* arguments)
+                Bool_t operator()(skylib::Buffer_t<V::Variable_t>* arguments)
                 {
                     arguments->Resize(1);
                     arguments->At(0)->String(page_name);
@@ -655,11 +658,11 @@ namespace doticu_mcmlib {
     void Config_Base_t::Register_Me(V::Machine_t* machine)
     {
         #define METHOD(STR_FUNC_, ARG_NUM_, RETURN_, METHOD_, ...)  \
-        M                                                           \
+        SKYLIB_M                                                    \
             BIND_METHOD(machine, Class_Name(), Config_Base_t,       \
                         STR_FUNC_, ARG_NUM_,                        \
                         RETURN_, METHOD_, __VA_ARGS__);             \
-        W
+        SKYLIB_W
 
         METHOD("ClearOptionBuffers", 0, void, Clear_Buffers);
 

@@ -4,7 +4,12 @@
 
 #pragma once
 
+#include "doticu_skylib/collections.h"
+#include "doticu_skylib/interface.h"
 #include "doticu_skylib/intrinsic.h"
+#include "doticu_skylib/string.h"
+
+#include "doticu_skylib/virtual.h"
 
 namespace doticu_skylib {}
 namespace skylib = doticu_skylib;

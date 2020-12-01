@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include "doticu_skylib/intrinsic.h"
 #include "doticu_skylib/quest.h"
 
 #include "doticu_mcmlib/intrinsic.h"
