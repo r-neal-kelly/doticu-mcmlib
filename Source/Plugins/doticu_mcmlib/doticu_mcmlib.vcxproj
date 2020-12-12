@@ -64,10 +64,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\doticu_mcmlib\config_base.h" />
+    <ClInclude Include="include\doticu_mcmlib\config_manager.h" />
+    <ClInclude Include="include\doticu_mcmlib\consts.h" />
     <ClInclude Include="include\doticu_mcmlib\intrinsic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\doticu_mcmlib\config_base.cpp" />
+    <ClCompile Include="src\doticu_mcmlib\config_manager.cpp" />
+    <ClCompile Include="src\doticu_mcmlib\consts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\doticu_mcmlib\config_base_macros.h" />

@@ -522,7 +522,7 @@ namespace doticu_mcmlib {
             void operator()(V::Variable_t* result)
             {
                 if (self->Current_State() != State_e::RESET) {
-                    self->Option_Flags(option, Flag_e::NONE, true);
+                    self->Option_Flags(option, Flag_e::NONE, true); // this can cause a crash if the menu is closed before hand
                 }
 
                 if (ucallback) {
