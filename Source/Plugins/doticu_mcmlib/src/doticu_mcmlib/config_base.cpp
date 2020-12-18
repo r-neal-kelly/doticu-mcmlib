@@ -58,6 +58,28 @@ namespace doticu_mcmlib {
         return static_cast<Int_t>(operator u32());
     }
 
+    String_t Config_Base_t::Add_Font(some<const char*> string,
+                                     maybe<const char*> color,
+                                     maybe<const char*> alpha,
+                                     maybe<const char*> size)
+    {
+        SKYLIB_ASSERT_SOME(string);
+
+        std::string font = "<font";
+
+        if (color && color[0]) {
+            font = font + " color='" + color() + "'";
+        }
+        if (alpha && alpha[0]) {
+            font = font + " alpha='" + alpha() + "'";
+        }
+        if (size && size[0]) {
+            font = font + " size='" + size() + "'";
+        }
+
+        return font + ">" + string() + "</font>";
+    }
+
     String_t                Config_Base_t::Class_Name()                         { DEFINE_CLASS_NAME("SKI_ConfigBase"); }
     V::Class_t*             Config_Base_t::Class()                              { DEFINE_CLASS(); }
     V::Object_t*            Config_Base_t::Object()                             { DEFINE_OBJECT(); }
