@@ -98,9 +98,9 @@ namespace doticu_mcmlib {
         static constexpr size_t         MAX_POSITIONS   = 128;
 
         static String_t     Add_Font(some<const char*> string,
-                                     maybe<const char*> color = nullptr,
-                                     maybe<const char*> alpha = nullptr,
-                                     maybe<const char*> size = nullptr);
+                                     maybe<const char*> color = "#FFFFFF",
+                                     maybe<const char*> alpha = "#FF",
+                                     maybe<const char*> size = "20");
 
         static String_t     Class_Name();
         static V::Class_t*  Class();
