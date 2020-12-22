@@ -10,17 +10,6 @@
 
 namespace doticu_mcmlib {
 
-    namespace V {
-
-        using Array_t           = skylib::Virtual::Array_t;
-        using Class_t           = skylib::Virtual::Class_t;
-        using Machine_t         = skylib::Virtual::Machine_t;
-        using Object_t          = skylib::Virtual::Object_t;
-        using Variable_t        = skylib::Virtual::Variable_t;
-        using String_Variable_t = skylib::Virtual::String_Variable_t;
-
-    }
-
     class Flag_e : public Enum_t<Int_t>
     {
     public:
@@ -106,26 +95,28 @@ namespace doticu_mcmlib {
         static V::Class_t*  Class();
 
     public:
-        V::Object_t*            Object();
+        V::Object_t*                    Object();
 
-        V::Variable_t*          Current_Page_Name_Variable();
-        V::Variable_t*          Current_Page_Number_Variable();
-        V::Variable_t*          Current_State_Variable(); // Int_t
-        V::Variable_t*          Cursor_Position_Variable();
-        V::Variable_t*          Cursor_Fill_Mode_Variable();
-        V::Variable_t*          Flags_Variable(); // Array_t* of Int_t
-        V::Variable_t*          Labels_Variable(); // Array_t* of String_t
-        V::Variable_t*          String_Values_Variable(); // Array_t* of String_t
-        V::Variable_t*          Number_Values_Variable(); // Array_t* of Float_t
-        V::Variable_t*          States_Variable();
-        V::Variable_t*          Info_Text_Variable();
-        V::Variable_t*          Slider_Parameters_Variable(); // Array_t* of Float_t
-        V::Variable_t*          Menu_Parameters_Variable(); // Array_t* of Int_t
-        V::Variable_t*          Is_Waiting_For_Message_Variable(); // Bool_t
-        V::Variable_t*          Message_Result_Variable(); // Bool_t
+        V::Variable_t*                  Current_Page_Name_Variable();
+        V::Variable_t*                  Current_Page_Number_Variable();
+        V::Variable_t*                  Current_State_Variable(); // Int_t
+        V::Variable_t*                  Cursor_Position_Variable();
+        V::Variable_t*                  Cursor_Fill_Mode_Variable();
 
-        V::String_Variable_t*   Mod_Name_Property();
-        V::Variable_t*          Pages_Property(); // Array_t* of String_t
+        V::Array_Variable_t<Int_t>*     Flags_Variable();
+        V::Array_Variable_t<String_t>*  Labels_Variable();
+        V::Array_Variable_t<String_t>*  String_Values_Variable();
+        V::Array_Variable_t<Float_t>*   Number_Values_Variable();
+        V::Array_Variable_t<String_t>*  States_Variable();
+
+        V::Variable_t*                  Info_Text_Variable();
+        V::Variable_t*                  Slider_Parameters_Variable(); // Array_t* of Float_t
+        V::Variable_t*                  Menu_Parameters_Variable(); // Array_t* of Int_t
+        V::Variable_t*                  Is_Waiting_For_Message_Variable(); // Bool_t
+        V::Variable_t*                  Message_Result_Variable(); // Bool_t
+
+        V::String_Variable_t*           Mod_Name_Property();
+        V::Variable_t*                  Pages_Property(); // Array_t* of String_t
 
     public:
         String_t    Mod_Name();
@@ -139,10 +130,19 @@ namespace doticu_mcmlib {
         State_e     Current_State();
         
         V::Array_t* Flags();
+        void        Flags(Vector_t<Int_t> values);
+
         V::Array_t* Labels();
+        void        Labels(Vector_t<String_t> values);
+
         V::Array_t* String_Values();
+        void        String_Values(Vector_t<String_t> values);
+
         V::Array_t* Number_Values();
+        void        Number_Values(Vector_t<Float_t> values);
+
         V::Array_t* States();
+        void        States(Vector_t<String_t> values);
 
         Int_t       Cursor_Position();
         void        Cursor_Position(Int_t cursor_position);
@@ -151,7 +151,13 @@ namespace doticu_mcmlib {
 
         Int_t       Pack_Flags(Flag_e flags, Option_e option_type);
 
+        void        Clear_Flags();
+        void        Clear_Labels();
+        void        Clear_Strings();
+        void        Clear_Numbers();
+        void        Clear_States();
         void        Clear_Buffers();
+
         void        Write_Buffers();
 
         void        Title_Text(String_t title);

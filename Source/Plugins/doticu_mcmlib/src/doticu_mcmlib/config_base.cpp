@@ -80,28 +80,28 @@ namespace doticu_mcmlib {
         return font + ">" + string() + "</font>";
     }
 
-    String_t                Config_Base_t::Class_Name()                         { DEFINE_CLASS_NAME("SKI_ConfigBase"); }
-    V::Class_t*             Config_Base_t::Class()                              { DEFINE_CLASS(); }
-    V::Object_t*            Config_Base_t::Object()                             { DEFINE_OBJECT(); }
+    String_t                        Config_Base_t::Class_Name()                         { DEFINE_CLASS_NAME("SKI_ConfigBase"); }
+    V::Class_t*                     Config_Base_t::Class()                              { DEFINE_CLASS(); }
+    V::Object_t*                    Config_Base_t::Object()                             { DEFINE_OBJECT(); }
 
-    V::Variable_t*          Config_Base_t::Current_Page_Name_Variable()         { DEFINE_VARIABLE("_currentPage"); }
-    V::Variable_t*          Config_Base_t::Current_Page_Number_Variable()       { DEFINE_VARIABLE("_currentPageNum"); }
-    V::Variable_t*          Config_Base_t::Current_State_Variable()             { DEFINE_VARIABLE("_state"); }
-    V::Variable_t*          Config_Base_t::Cursor_Position_Variable()           { DEFINE_VARIABLE("_cursorPosition"); }
-    V::Variable_t*          Config_Base_t::Cursor_Fill_Mode_Variable()          { DEFINE_VARIABLE("_cursorFillMode"); }
-    V::Variable_t*          Config_Base_t::Flags_Variable()                     { DEFINE_VARIABLE("_optionFlagsBuf"); }
-    V::Variable_t*          Config_Base_t::Labels_Variable()                    { DEFINE_VARIABLE("_textBuf"); }
-    V::Variable_t*          Config_Base_t::String_Values_Variable()             { DEFINE_VARIABLE("_strValueBuf"); }
-    V::Variable_t*          Config_Base_t::Number_Values_Variable()             { DEFINE_VARIABLE("_numValueBuf"); }
-    V::Variable_t*          Config_Base_t::States_Variable()                    { DEFINE_VARIABLE("_stateOptionMap"); }
-    V::Variable_t*          Config_Base_t::Info_Text_Variable()                 { DEFINE_VARIABLE("_infoText"); }
-    V::Variable_t*          Config_Base_t::Slider_Parameters_Variable()         { DEFINE_VARIABLE("_sliderParams"); }
-    V::Variable_t*          Config_Base_t::Menu_Parameters_Variable()           { DEFINE_VARIABLE("_menuParams"); }
-    V::Variable_t*          Config_Base_t::Is_Waiting_For_Message_Variable()    { DEFINE_VARIABLE("_waitForMessage"); }
-    V::Variable_t*          Config_Base_t::Message_Result_Variable()            { DEFINE_VARIABLE("_messageResult"); }
+    V::Variable_t*                  Config_Base_t::Current_Page_Name_Variable()         { DEFINE_VARIABLE("_currentPage"); }
+    V::Variable_t*                  Config_Base_t::Current_Page_Number_Variable()       { DEFINE_VARIABLE("_currentPageNum"); }
+    V::Variable_t*                  Config_Base_t::Current_State_Variable()             { DEFINE_VARIABLE("_state"); }
+    V::Variable_t*                  Config_Base_t::Cursor_Position_Variable()           { DEFINE_VARIABLE("_cursorPosition"); }
+    V::Variable_t*                  Config_Base_t::Cursor_Fill_Mode_Variable()          { DEFINE_VARIABLE("_cursorFillMode"); }
+    V::Array_Variable_t<Int_t>*     Config_Base_t::Flags_Variable()                     { DEFINE_ARRAY_VARIABLE(Int_t, "_optionFlagsBuf"); }
+    V::Array_Variable_t<String_t>*  Config_Base_t::Labels_Variable()                    { DEFINE_ARRAY_VARIABLE(String_t, "_textBuf"); }
+    V::Array_Variable_t<String_t>*  Config_Base_t::String_Values_Variable()             { DEFINE_ARRAY_VARIABLE(String_t, "_strValueBuf"); }
+    V::Array_Variable_t<Float_t>*   Config_Base_t::Number_Values_Variable()             { DEFINE_ARRAY_VARIABLE(Float_t, "_numValueBuf"); }
+    V::Array_Variable_t<String_t>*  Config_Base_t::States_Variable()                    { DEFINE_ARRAY_VARIABLE(String_t, "_stateOptionMap"); }
+    V::Variable_t*                  Config_Base_t::Info_Text_Variable()                 { DEFINE_VARIABLE("_infoText"); }
+    V::Variable_t*                  Config_Base_t::Slider_Parameters_Variable()         { DEFINE_VARIABLE("_sliderParams"); }
+    V::Variable_t*                  Config_Base_t::Menu_Parameters_Variable()           { DEFINE_VARIABLE("_menuParams"); }
+    V::Variable_t*                  Config_Base_t::Is_Waiting_For_Message_Variable()    { DEFINE_VARIABLE("_waitForMessage"); }
+    V::Variable_t*                  Config_Base_t::Message_Result_Variable()            { DEFINE_VARIABLE("_messageResult"); }
 
-    V::String_Variable_t*   Config_Base_t::Mod_Name_Property()                  { DEFINE_STRING_VARIABLE("::ModName_var"); }
-    V::Variable_t*          Config_Base_t::Pages_Property()                     { DEFINE_VARIABLE("::Pages_var"); }
+    V::String_Variable_t*           Config_Base_t::Mod_Name_Property()                  { DEFINE_STRING_VARIABLE("::ModName_var"); }
+    V::Variable_t*                  Config_Base_t::Pages_Property()                     { DEFINE_VARIABLE("::Pages_var"); }
 
     String_t Config_Base_t::Mod_Name()
     {
@@ -158,30 +158,20 @@ namespace doticu_mcmlib {
         return static_cast<State_e>(Current_State_Variable()->Int());
     }
 
-    V::Array_t* Config_Base_t::Flags()
-    {
-        return Flags_Variable()->Array();
-    }
+    V::Array_t* Config_Base_t::Flags()                                  { return Flags_Variable()->Array(); }
+    void        Config_Base_t::Flags(Vector_t<Int_t> values)            { Flags_Variable()->Values(values); }
 
-    V::Array_t* Config_Base_t::Labels()
-    {
-        return Labels_Variable()->Array();
-    }
+    V::Array_t* Config_Base_t::Labels()                                 { return Labels_Variable()->Array(); }
+    void        Config_Base_t::Labels(Vector_t<String_t> values)        { Labels_Variable()->Values(values); }
 
-    V::Array_t* Config_Base_t::String_Values()
-    {
-        return String_Values_Variable()->Array();
-    }
+    V::Array_t* Config_Base_t::String_Values()                          { return String_Values_Variable()->Array(); }
+    void        Config_Base_t::String_Values(Vector_t<String_t> values) { String_Values_Variable()->Values(values); }
 
-    V::Array_t* Config_Base_t::Number_Values()
-    {
-        return Number_Values_Variable()->Array();
-    }
+    V::Array_t* Config_Base_t::Number_Values()                          { return Number_Values_Variable()->Array(); }
+    void        Config_Base_t::Number_Values(Vector_t<Float_t> values)  { Number_Values_Variable()->Values(values); }
 
-    V::Array_t* Config_Base_t::States()
-    {
-        return States_Variable()->Array();
-    }
+    V::Array_t* Config_Base_t::States()                                 { return States_Variable()->Array(); }
+    void        Config_Base_t::States(Vector_t<String_t> values)        { States_Variable()->Values(values); }
 
     Int_t Config_Base_t::Cursor_Position()
     {
@@ -213,21 +203,81 @@ namespace doticu_mcmlib {
         return (static_cast<Int_t>(flags) * 0x100) + static_cast<Int_t>(option_type);
     }
 
-    void Config_Base_t::Clear_Buffers()
+    void Config_Base_t::Clear_Flags()
     {
         V::Array_t* flags = Flags();
-        V::Array_t* labels = Labels();
-        V::Array_t* strings = String_Values();
-        V::Array_t* numbers = Number_Values();
-        V::Array_t* states = States();
-
-        for (size_t idx = 0, count = 128; idx < count; idx += 1) {
-            flags->Point(idx)->Int(0);
-            labels->Point(idx)->String("");
-            strings->Point(idx)->String("");
-            numbers->Point(idx)->Float(0.0f);
-            states->Point(idx)->String("");
+        if (flags) {
+            for (Index_t idx = 0, count = flags->count; idx < count; idx += 1) {
+                V::Int_Variable_t* var = static_cast<V::Int_Variable_t*>(flags->Point(idx));
+                if (var) {
+                    var->Value(0);
+                }
+            }
         }
+    }
+
+    void Config_Base_t::Clear_Labels()
+    {
+        V::Array_t* labels = Labels();
+        if (labels) {
+            for (Index_t idx = 0, count = labels->count; idx < count; idx += 1) {
+                V::String_Variable_t* var = static_cast<V::String_Variable_t*>(labels->Point(idx));
+                if (var) {
+                    var->Value("");
+                }
+            }
+        }
+    }
+
+    void Config_Base_t::Clear_Strings()
+    {
+        V::Array_t* strings = String_Values();
+        if (strings) {
+            for (Index_t idx = 0, count = strings->count; idx < count; idx += 1) {
+                V::String_Variable_t* var = static_cast<V::String_Variable_t*>(strings->Point(idx));
+                if (var) {
+                    var->Value("");
+                }
+            }
+        }
+    }
+
+    void Config_Base_t::Clear_Numbers()
+    {
+        V::Array_t* numbers = Number_Values();
+        if (numbers) {
+            for (Index_t idx = 0, count = numbers->count; idx < count; idx += 1) {
+                V::Float_Variable_t* var = static_cast<V::Float_Variable_t*>(numbers->Point(idx));
+                if (var) {
+                    var->Value(0.0f);
+                }
+            }
+        }
+    }
+
+    void Config_Base_t::Clear_States()
+    {
+        V::Array_t* states = States();
+        if (states) {
+            for (Index_t idx = 0, count = states->count; idx < count; idx += 1) {
+                V::String_Variable_t* var = static_cast<V::String_Variable_t*>(states->Point(idx));
+                if (var) {
+                    var->Value("");
+                }
+            }
+        }
+    }
+
+    void Config_Base_t::Clear_Buffers()
+    {
+        // this could be optimized into one loop but there are concerns of stability
+        // with unknown data-states in broken scripts that SkyUI doesn't handle properly.
+
+        Clear_Flags();
+        Clear_Labels();
+        Clear_Strings();
+        Clear_Numbers();
+        Clear_States();
 
         Cursor_Position(0);
         Cursor_Fill_Mode(Cursor_e::LEFT_TO_RIGHT);
@@ -237,7 +287,7 @@ namespace doticu_mcmlib {
     {
         V::Array_t* flags = Flags();
         Int_t option_count = 0;
-        for (size_t idx = 0, count = 128; idx < count; idx += 1) {
+        for (size_t idx = 0, count = MAX_POSITIONS; idx < count; idx += 1) {
             Int_t flag = flags->Point(idx)->Int();
             if (flag != static_cast<Int_t>(Option_e::EMPTY)) {
                 option_count += 1;
@@ -288,7 +338,7 @@ namespace doticu_mcmlib {
             Number_Values()->Point(position)->Float(number);
 
             Int_t new_position = position + static_cast<Int_t>(Cursor_Fill_Mode());
-            if (new_position >= 128) {
+            if (new_position >= MAX_POSITIONS) {
                 Cursor_Position(-1);
             } else {
                 Cursor_Position(new_position);

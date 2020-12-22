@@ -10,24 +10,6 @@
 
 namespace doticu_mcmlib {
 
-    namespace V {
-
-        using Arguments_t       = skylib::Virtual::Arguments_t;
-        using Array_t           = skylib::Virtual::Array_t;
-        using Callback_i        = skylib::Virtual::Callback_i;
-        using Callback_t        = skylib::Virtual::Callback_t;
-        using Class_t           = skylib::Virtual::Class_t;
-        using Machine_t         = skylib::Virtual::Machine_t;
-        using Object_t          = skylib::Virtual::Object_t;
-        using Variable_t        = skylib::Virtual::Variable_t;
-        using String_Variable_t = skylib::Virtual::String_Variable_t;
-        using Utils_t           = skylib::Virtual::Utils_t;
-
-        template <typename Type_t>
-        using Array_Variable_t  = skylib::Virtual::Array_Variable_t<Type_t>;
-
-    }
-
     class Config_Base_t;
 
     class Config_Manager_t : public skylib::Quest_t {
