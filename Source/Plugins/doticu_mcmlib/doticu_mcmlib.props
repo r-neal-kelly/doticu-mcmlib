@@ -2,13 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <doticu_skylib>$(SolutionDir)\..\..\..\doticu_skylib\Source\Plugins\doticu_skylib</doticu_skylib>
+    <skse>$(ProjectDir)\..\..\..\..\skse 2.0.19;$(ProjectDir)\..\..\..\..\skse 2.0.19\skse64</skse>
+    <doticu_skylib>$(ProjectDir)\..\..\..\..\doticu_skylib\Source\Plugins\doticu_skylib</doticu_skylib>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>doticu_mcmlib</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup>
+    <BuildMacro Include="skse">
+      <Value>$(skse)</Value>
+    </BuildMacro>
     <BuildMacro Include="doticu_skylib">
       <Value>$(doticu_skylib)</Value>
     </BuildMacro>

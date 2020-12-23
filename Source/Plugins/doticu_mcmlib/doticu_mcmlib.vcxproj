@@ -44,7 +44,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <ForcedIncludeFiles>common/IPrefix.h;</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(doticu_skylib)\include;$(ProjectDir)\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(skse);$(doticu_skylib)\include;$(ProjectDir)\include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -54,14 +54,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\doticu_npc_lookup\_plugin\skse64\skse64\skse64.vcxproj">
-      <Project>{7028b79c-06e3-4d9a-b38c-1dc3680b1bdb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\doticu_skylib\Source\Plugins\doticu_skylib\doticu_skylib.vcxproj">
-      <Project>{0791ab06-0e03-486a-9a24-2feefc26674b}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\doticu_mcmlib\config_base.h" />
     <ClInclude Include="include\doticu_mcmlib\config_manager.h" />
