@@ -41,7 +41,7 @@ namespace doticu_mcmlib {
             if (config_names && config_bases && config_names->count == config_bases->count) {
                 for (Index_t idx = 0, end = config_bases->count; idx < end; idx += 1) {
                     V::Variable_t* config_base_variable = config_bases->Point(idx);
-                    if (config_base_variable && config_base_variable->Quest() == config_base) {
+                    if (config_base_variable && config_base_variable->Unpack<Quest_t*>() == config_base) {
                         V::Variable_t* config_name_variable = config_names->Point(idx);
                         if (config_name_variable) {
                             config_name_variable->String(new_name);
