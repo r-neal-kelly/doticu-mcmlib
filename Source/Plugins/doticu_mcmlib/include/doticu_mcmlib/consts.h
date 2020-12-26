@@ -12,9 +12,9 @@ namespace doticu_mcmlib {
     public:
         static constexpr const char* SKYUI_ESP_NAME = "SkyUI_SE.esp";
 
-        static skylib::Mod_t*   SkyUI_Mod();
+        static maybe<Mod_t*>    SkyUI_Mod();
 
-        static skylib::Quest_t* SkyUI_Config_Manager_Quest();
+        static some<Quest_t*>   SkyUI_Config_Manager_Quest();
     };
 
 }

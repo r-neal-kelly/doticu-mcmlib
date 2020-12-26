@@ -4,12 +4,6 @@
 
 #pragma once
 
-#include "doticu_skylib/collections.h"
-#include "doticu_skylib/interface.h"
-#include "doticu_skylib/intrinsic.h"
-#include "doticu_skylib/maybe.h"
-#include "doticu_skylib/string.h"
-
 #include "doticu_skylib/skylib.h"
 #include "doticu_skylib/virtual.h"
 
@@ -41,6 +35,11 @@ namespace doticu_mcmlib {
     using Vector_t      = skylib::Vector_t<T>;
     template <typename ...T>
     using Callback_i    = skylib::Callback_i<T...>;
+
+    using Form_t        = skylib::Form_t;
+    using Game_t        = skylib::Game_t;
+    using Mod_t         = skylib::Mod_t;
+    using Quest_t       = skylib::Quest_t;
 
     namespace V {
 

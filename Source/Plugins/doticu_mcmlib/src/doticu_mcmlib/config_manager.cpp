@@ -22,10 +22,10 @@
 
 namespace doticu_mcmlib {
 
-    String_t            Config_Manager_t::Class_Name()  { DEFINE_CLASS_NAME("SKI_ConfigManager"); }
-    V::Class_t*         Config_Manager_t::Class()       { DEFINE_CLASS(); }
-    V::Object_t*        Config_Manager_t::Object()      { DEFINE_OBJECT(); }
-    Config_Manager_t*   Config_Manager_t::Self()        { return static_cast<Config_Manager_t*>(Consts_t::SkyUI_Config_Manager_Quest()); }
+    String_t                Config_Manager_t::Class_Name()  { DEFINE_CLASS_NAME("SKI_ConfigManager"); }
+    V::Class_t*             Config_Manager_t::Class()       { DEFINE_CLASS(); }
+    V::Object_t*            Config_Manager_t::Object()      { DEFINE_OBJECT(); }
+    some<Config_Manager_t*> Config_Manager_t::Self()        { return static_cast<some<Config_Manager_t*>>(Consts_t::SkyUI_Config_Manager_Quest()); }
 
     V::Array_Variable_t<String_t>*          Config_Manager_t::Config_Names_Variable()   { DEFINE_ARRAY_VARIABLE(String_t, "_modNames"); }
     V::Array_Variable_t<Config_Base_t*>*    Config_Manager_t::Config_Bases_Variable()   { DEFINE_ARRAY_VARIABLE(Config_Base_t*, "_modConfigs"); }
@@ -33,22 +33,22 @@ namespace doticu_mcmlib {
     V::Array_t* Config_Manager_t::Config_Names()    { return Config_Names_Variable()->Array(); }
     V::Array_t* Config_Manager_t::Config_Bases()    { return Config_Bases_Variable()->Array(); }
 
-    void Config_Manager_t::Change_Config_Base_Name(Config_Base_t* config_base, String_t new_name)
+    void Config_Manager_t::Change_Config_Base_Name(some<Config_Base_t*> config_base, String_t new_name)
     {
-        if (config_base) {
-            V::Array_t* config_names = Config_Names();
-            V::Array_t* config_bases = Config_Bases();
-            if (config_names && config_bases && config_names->count == config_bases->count) {
-                for (Index_t idx = 0, end = config_bases->count; idx < end; idx += 1) {
-                    V::Variable_t* config_base_variable = config_bases->Point(idx);
-                    if (config_base_variable && config_base_variable->Unpack<Quest_t*>() == config_base) {
-                        V::Variable_t* config_name_variable = config_names->Point(idx);
-                        if (config_name_variable) {
-                            config_name_variable->String(new_name);
-                            config_base->Mod_Name(new_name);
-                        }
-                        return;
+        SKYLIB_ASSERT_SOME(config_base);
+
+        V::Array_t* config_names = Config_Names();
+        V::Array_t* config_bases = Config_Bases();
+        if (config_names && config_bases && config_names->count == config_bases->count) {
+            for (Index_t idx = 0, end = config_bases->count; idx < end; idx += 1) {
+                V::Variable_t* config_base_variable = config_bases->Point(idx);
+                if (config_base_variable && config_base_variable->As<Quest_t*>() == config_base()) {
+                    V::Variable_t* config_name_variable = config_names->Point(idx);
+                    if (config_name_variable) {
+                        config_name_variable->String(new_name);
+                        config_base->Mod_Name(new_name);
                     }
+                    return;
                 }
             }
         }

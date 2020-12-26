@@ -59,6 +59,7 @@
     <ClInclude Include="include\doticu_mcmlib\config_manager.h" />
     <ClInclude Include="include\doticu_mcmlib\consts.h" />
     <ClInclude Include="include\doticu_mcmlib\intrinsic.h" />
+    <ClInclude Include="include\doticu_mcmlib\mcmlib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\doticu_mcmlib\config_base.cpp" />
