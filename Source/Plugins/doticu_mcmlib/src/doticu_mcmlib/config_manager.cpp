@@ -27,26 +27,23 @@ namespace doticu_mcmlib {
     V::Object_t*            Config_Manager_t::Object()      { DEFINE_OBJECT(); }
     some<Config_Manager_t*> Config_Manager_t::Self()        { return static_cast<some<Config_Manager_t*>>(Consts_t::SkyUI_Config_Manager_Quest()); }
 
-    V::Array_Variable_t<String_t>*          Config_Manager_t::Config_Names_Variable()   { DEFINE_ARRAY_VARIABLE(String_t, "_modNames"); }
-    V::Array_Variable_t<Config_Base_t*>*    Config_Manager_t::Config_Bases_Variable()   { DEFINE_ARRAY_VARIABLE(Config_Base_t*, "_modConfigs"); }
-
-    V::Array_t* Config_Manager_t::Config_Names()    { return Config_Names_Variable()->Array(); }
-    V::Array_t* Config_Manager_t::Config_Bases()    { return Config_Bases_Variable()->Array(); }
+    V::Variable_tt<Vector_t<String_t>>&         Config_Manager_t::Config_Names()    { DEFINE_VARIABLE_REFERENCE(Vector_t<String_t>, "_modNames"); }
+    V::Variable_tt<Vector_t<Config_Base_t*>>&   Config_Manager_t::Config_Bases()    { DEFINE_VARIABLE_REFERENCE(Vector_t<Config_Base_t*>, "_modConfigs"); }
 
     void Config_Manager_t::Change_Config_Base_Name(some<Config_Base_t*> config_base, String_t new_name)
     {
         SKYLIB_ASSERT_SOME(config_base);
 
-        V::Array_t* config_names = Config_Names();
-        V::Array_t* config_bases = Config_Bases();
+        V::Array_t* config_names = Config_Names().Array();
+        V::Array_t* config_bases = Config_Bases().Array();
         if (config_names && config_bases && config_names->count == config_bases->count) {
             for (Index_t idx = 0, end = config_bases->count; idx < end; idx += 1) {
                 V::Variable_t* config_base_variable = config_bases->Point(idx);
-                if (config_base_variable && config_base_variable->As<Quest_t*>() == config_base()) {
+                if (config_base_variable && config_base_variable->As<Config_Base_t*>() == config_base()) {
                     V::Variable_t* config_name_variable = config_names->Point(idx);
                     if (config_name_variable) {
                         config_name_variable->String(new_name);
-                        config_base->Mod_Name(new_name);
+                        config_base->Mod_Name() = new_name;
                     }
                     return;
                 }

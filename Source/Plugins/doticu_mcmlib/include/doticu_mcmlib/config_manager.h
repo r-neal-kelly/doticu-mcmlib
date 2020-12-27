@@ -12,7 +12,8 @@ namespace doticu_mcmlib {
 
     class Config_Base_t;
 
-    class Config_Manager_t : public skylib::Quest_t {
+    class Config_Manager_t : public skylib::Quest_t
+    {
     public:
         static String_t                 Class_Name();
         static V::Class_t*              Class();
@@ -20,12 +21,8 @@ namespace doticu_mcmlib {
         static some<Config_Manager_t*>  Self();
 
     public:
-        V::Array_Variable_t<String_t>*          Config_Names_Variable();
-        V::Array_Variable_t<Config_Base_t*>*    Config_Bases_Variable(); // SKI_ConfigBase[]
-
-    public:
-        V::Array_t* Config_Names();
-        V::Array_t* Config_Bases();
+        V::Variable_tt<Vector_t<String_t>>&         Config_Names();
+        V::Variable_tt<Vector_t<Config_Base_t*>>&   Config_Bases(); // SKI_ConfigBase[]
 
     public:
         void Change_Config_Base_Name(some<Config_Base_t*> config_base, String_t new_name);

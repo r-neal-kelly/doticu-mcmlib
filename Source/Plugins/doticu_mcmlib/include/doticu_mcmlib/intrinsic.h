@@ -40,6 +40,7 @@ namespace doticu_mcmlib {
     using Game_t        = skylib::Game_t;
     using Mod_t         = skylib::Mod_t;
     using Quest_t       = skylib::Quest_t;
+    using UI_t          = skylib::UI_t;
 
     namespace V {
 
@@ -51,13 +52,10 @@ namespace doticu_mcmlib {
         using Machine_t         = skylib::Virtual::Machine_t;
         using Object_t          = skylib::Virtual::Object_t;
         using Variable_t        = skylib::Virtual::Variable_t;
-        using Int_Variable_t    = skylib::Virtual::Int_Variable_t;
-        using Float_Variable_t  = skylib::Virtual::Float_Variable_t;
-        using String_Variable_t = skylib::Virtual::String_Variable_t;
         using Utils_t           = skylib::Virtual::Utils_t;
 
-        template <typename Type_t>
-        using Array_Variable_t  = skylib::Virtual::Array_Variable_t<Type_t>;
+        template <typename T>
+        using Variable_tt       = skylib::Virtual::Variable_tt<T>;
 
     }
 

@@ -80,7 +80,8 @@ namespace doticu_mcmlib {
         operator Int_t();
     };
 
-    class Config_Base_t : public skylib::Quest_t {
+    class Config_Base_t : public skylib::Quest_t
+    {
     public:
         static constexpr const char*    JOURNAL_MENU    = "Journal Menu";
         static constexpr const char*    ROOT_MENU       = "_root.ConfigPanelFader.configPanel";
@@ -93,61 +94,32 @@ namespace doticu_mcmlib {
 
         static String_t     Class_Name();
         static V::Class_t*  Class();
+        V::Object_t*        Object();
 
     public:
-        V::Object_t*                    Object();
+        V::Variable_tt<String_t>&           Mod_Name();
 
-        V::Variable_t*                  Current_Page_Name_Variable();
-        V::Variable_t*                  Current_Page_Number_Variable();
-        V::Variable_t*                  Current_State_Variable(); // Int_t
-        V::Variable_t*                  Cursor_Position_Variable();
-        V::Variable_t*                  Cursor_Fill_Mode_Variable();
+        V::Variable_tt<String_t>&           Current_Page_Name();
+        V::Variable_tt<Int_t>&              Current_Page_Number();
+        V::Variable_tt<String_t>&           Current_Info_Text();
+        V::Variable_tt<State_e>&            Current_State();
+        V::Variable_tt<Int_t>&              Current_Cursor_Position();
+        V::Variable_tt<Cursor_e>&           Current_Cursor_Mode();
 
-        V::Array_Variable_t<Int_t>*     Flags_Variable();
-        V::Array_Variable_t<String_t>*  Labels_Variable();
-        V::Array_Variable_t<String_t>*  String_Values_Variable();
-        V::Array_Variable_t<Float_t>*   Number_Values_Variable();
-        V::Array_Variable_t<String_t>*  States_Variable();
+        V::Variable_tt<Vector_t<String_t>>& Pages();
+        V::Variable_tt<Vector_t<Int_t>>&    Flags();
+        V::Variable_tt<Vector_t<String_t>>& Labels();
+        V::Variable_tt<Vector_t<String_t>>& Strings();
+        V::Variable_tt<Vector_t<Float_t>>&  Floats();
+        V::Variable_tt<Vector_t<String_t>>& States();
+        V::Variable_tt<Vector_t<Float_t>>&  Slider_Parameters();
+        V::Variable_tt<Vector_t<Int_t>>&    Menu_Parameters();
 
-        V::Variable_t*                  Info_Text_Variable();
-        V::Variable_t*                  Slider_Parameters_Variable(); // Array_t* of Float_t
-        V::Variable_t*                  Menu_Parameters_Variable(); // Array_t* of Int_t
-        V::Variable_t*                  Is_Waiting_For_Message_Variable(); // Bool_t
-        V::Variable_t*                  Message_Result_Variable(); // Bool_t
-
-        V::String_Variable_t*           Mod_Name_Property();
-        V::Variable_t*                  Pages_Property(); // Array_t* of String_t
+        V::Variable_tt<Bool_t>&             Is_Waiting_For_Message();
+        V::Variable_tt<Bool_t>&             Message_Result();
 
     public:
-        String_t    Mod_Name();
-        void        Mod_Name(String_t value);
-        V::Array_t* Pages();
-        void        Pages(Vector_t<String_t> values);
-
-        String_t    Current_Page_Name();
-        Int_t       Current_Page_Number();
         void        Current_Page(String_t name);
-        State_e     Current_State();
-        
-        V::Array_t* Flags();
-        void        Flags(Vector_t<Int_t> values);
-
-        V::Array_t* Labels();
-        void        Labels(Vector_t<String_t> values);
-
-        V::Array_t* String_Values();
-        void        String_Values(Vector_t<String_t> values);
-
-        V::Array_t* Number_Values();
-        void        Number_Values(Vector_t<Float_t> values);
-
-        V::Array_t* States();
-        void        States(Vector_t<String_t> values);
-
-        Int_t       Cursor_Position();
-        void        Cursor_Position(Int_t cursor_position);
-        Cursor_e    Cursor_Fill_Mode();
-        void        Cursor_Fill_Mode(Cursor_e cursor_fill_mode);
 
         Int_t       Pack_Flags(Flag_e flags, Option_e option_type);
 
@@ -161,9 +133,6 @@ namespace doticu_mcmlib {
         void        Write_Buffers();
 
         void        Title_Text(String_t title);
-
-        String_t    Info_Text();
-        void        Info_Text(String_t info);
 
         Bool_t      Can_Add_Options(Int_t count = 1);
 
