@@ -637,14 +637,15 @@ namespace doticu_mcmlib {
 
     void Config_Base_t::Register_Me(V::Machine_t* machine)
     {
-        #define METHOD(STR_FUNC_, ARG_NUM_, RETURN_, METHOD_, ...)  \
-        SKYLIB_M                                                    \
-            BIND_METHOD(machine, Class_Name(), Config_Base_t,       \
-                        STR_FUNC_, ARG_NUM_,                        \
-                        RETURN_, METHOD_, __VA_ARGS__);             \
+        String_t class_name = Class_Name();
+
+        #define METHOD(NAME_, RETURN_, METHOD_, ...)            \
+        SKYLIB_M                                                \
+            BIND_METHOD(machine, class_name, Config_Base_t,     \
+                        NAME_, RETURN_, METHOD_, __VA_ARGS__);  \
         SKYLIB_W
 
-        METHOD("ClearOptionBuffers", 0, void, Clear_Buffers);
+        METHOD("ClearOptionBuffers", void, Clear_Buffers);
 
         #undef METHOD
     }

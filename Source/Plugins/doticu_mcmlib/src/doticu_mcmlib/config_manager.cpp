@@ -53,14 +53,6 @@ namespace doticu_mcmlib {
 
     void Config_Manager_t::Register_Me(V::Machine_t* machine)
     {
-        #define METHOD(STR_FUNC_, ARG_NUM_, RETURN_, METHOD_, ...)  \
-        SKYLIB_M                                                    \
-            BIND_METHOD(machine, Class_Name(), Config_Manager_t,    \
-                        STR_FUNC_, ARG_NUM_,                        \
-                        RETURN_, METHOD_, __VA_ARGS__);             \
-        SKYLIB_W
-
-        #undef METHOD
     }
 
 }

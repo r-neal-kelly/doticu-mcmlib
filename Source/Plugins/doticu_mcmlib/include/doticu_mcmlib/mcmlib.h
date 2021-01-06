@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include "doticu_skylib/intrinsic.h"
-
 namespace doticu_mcmlib {
 
     class Cursor_e;
