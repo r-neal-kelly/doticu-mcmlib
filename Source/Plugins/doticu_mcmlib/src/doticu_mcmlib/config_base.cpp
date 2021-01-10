@@ -639,13 +639,13 @@ namespace doticu_mcmlib {
     {
         String_t class_name = Class_Name();
 
-        #define METHOD(NAME_, RETURN_, METHOD_, ...)            \
-        SKYLIB_M                                                \
-            BIND_METHOD(machine, class_name, Config_Base_t,     \
-                        NAME_, RETURN_, METHOD_, __VA_ARGS__);  \
+        #define METHOD(NAME_, WAITS_FOR_FRAME_, RETURN_, METHOD_, ...)              \
+        SKYLIB_M                                                                    \
+            BIND_METHOD(machine, class_name, Config_Base_t,                         \
+                        NAME_, WAITS_FOR_FRAME_, RETURN_, METHOD_, __VA_ARGS__);    \
         SKYLIB_W
 
-        METHOD("ClearOptionBuffers", void, Clear_Buffers);
+        METHOD("ClearOptionBuffers", false, void, Clear_Buffers); // maybe should wait for frame?
 
         #undef METHOD
     }
