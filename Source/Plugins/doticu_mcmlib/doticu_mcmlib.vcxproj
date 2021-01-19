@@ -69,6 +69,11 @@
   <ItemGroup>
     <None Include="include\doticu_mcmlib\config_base_macros.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\doticu_skylib\Source\Plugins\doticu_skylib\doticu_skylib.vcxproj">
+      <Project>{0791ab06-0e03-486a-9a24-2feefc26674b}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
