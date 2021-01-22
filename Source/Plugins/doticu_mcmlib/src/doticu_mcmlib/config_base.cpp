@@ -71,7 +71,7 @@ namespace doticu_mcmlib {
 
     String_t                            Config_Base_t::Class_Name()                 { DEFINE_CLASS_NAME("SKI_ConfigBase"); }
     V::Class_t*                         Config_Base_t::Class()                      { DEFINE_CLASS(); }
-    V::Object_t*                        Config_Base_t::Object()                     { DEFINE_OBJECT(); }
+    V::Object_t*                        Config_Base_t::Object()                     { DEFINE_OBJECT_METHOD(); }
 
     V::Variable_tt<String_t>&           Config_Base_t::Mod_Name()                   { DEFINE_VARIABLE_REFERENCE(String_t, "::ModName_var"); }
 

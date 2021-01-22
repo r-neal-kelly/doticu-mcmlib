@@ -24,7 +24,7 @@ namespace doticu_mcmlib {
 
     String_t                Config_Manager_t::Class_Name()  { DEFINE_CLASS_NAME("SKI_ConfigManager"); }
     V::Class_t*             Config_Manager_t::Class()       { DEFINE_CLASS(); }
-    V::Object_t*            Config_Manager_t::Object()      { DEFINE_OBJECT(); }
+    V::Object_t*            Config_Manager_t::Object()      { DEFINE_OBJECT_METHOD(); }
     some<Config_Manager_t*> Config_Manager_t::Self()        { return static_cast<some<Config_Manager_t*>>(Consts_t::SkyUI_Config_Manager_Quest()); }
 
     V::Variable_tt<Vector_t<String_t>>&         Config_Manager_t::Config_Names()    { DEFINE_VARIABLE_REFERENCE(Vector_t<String_t>, "_modNames"); }
