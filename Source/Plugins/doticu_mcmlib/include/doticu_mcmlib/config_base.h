@@ -185,7 +185,7 @@ namespace doticu_mcmlib {
         void        Open_Page(String_t page_name);
 
     public:
-        static void Register_Me(V::Machine_t* machine);
+        static void Register_Me(some<V::Machine_t*> machine);
     };
 
 }

@@ -635,8 +635,10 @@ namespace doticu_mcmlib {
         }
     }
 
-    void Config_Base_t::Register_Me(V::Machine_t* machine)
+    void Config_Base_t::Register_Me(some<V::Machine_t*> machine)
     {
+        SKYLIB_ASSERT_SOME(machine);
+
         String_t class_name = Class_Name();
 
         #define METHOD(NAME_, WAITS_FOR_FRAME_, RETURN_, METHOD_, ...)              \
@@ -645,7 +647,7 @@ namespace doticu_mcmlib {
                         NAME_, WAITS_FOR_FRAME_, RETURN_, METHOD_, __VA_ARGS__);    \
         SKYLIB_W
 
-        METHOD("ClearOptionBuffers", false, void, Clear_Buffers); // maybe should wait for frame?
+        METHOD("ClearOptionBuffers", false, void, Clear_Buffers);
 
         #undef METHOD
     }
