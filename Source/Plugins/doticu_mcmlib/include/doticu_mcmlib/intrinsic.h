@@ -22,19 +22,21 @@ namespace doticu_mcmlib {
 
     using Index_t       = skylib::Index_t;
 
-    template <typename Type>
-    using none          = skylib::none<Type>;
-    template <typename Type>
-    using some          = skylib::some<Type>;
-    template <typename Type>
-    using maybe         = skylib::maybe<Type>;
+    template <typename T>
+    using none          = skylib::none<T>;
+    template <typename T>
+    using maybe         = skylib::maybe<T>;
+    template <typename T>
+    using some          = skylib::some<T>;
+    template <typename T>
+    using unique        = skylib::unique<T>;
 
-    template <typename Type>
-    using Enum_t        = skylib::Enum_t<Type>;
+    template <typename T>
+    using Enum_t        = skylib::Enum_t<T>;
     template <typename T>
     using Vector_t      = skylib::Vector_t<T>;
-    template <typename ...T>
-    using Callback_i    = skylib::Callback_i<T...>;
+    template <typename ...Ts>
+    using Callback_i    = skylib::Callback_i<Ts...>;
 
     using Form_t        = skylib::Form_t;
     using Game_t        = skylib::Game_t;

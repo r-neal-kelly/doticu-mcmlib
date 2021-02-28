@@ -3,11 +3,11 @@
 */
 
 #include "doticu_skylib/cstring.h"
-
 #include "doticu_skylib/form.h"
+#include "doticu_skylib/interface.inl"
+#include "doticu_skylib/scrap_array.inl"
 #include "doticu_skylib/ui.h"
 #include "doticu_skylib/ui.inl"
-
 #include "doticu_skylib/virtual_arguments.h"
 #include "doticu_skylib/virtual_array.h"
 #include "doticu_skylib/virtual_callback.h"
@@ -484,47 +484,82 @@ namespace doticu_mcmlib {
         Option_Flags(option, Flag_e::HIDE, do_render);
     }
 
-    void Config_Base_t::Flicker_Option(Int_t option, Callback_i<>* ucallback)
+    void Config_Base_t::Flicker_Option(Int_t option, maybe<unique<Callback_i<>>> callback)
     {
-        using UCallback_t = Callback_i<>;
+        using Callback = maybe<unique<Callback_i<>>>;
 
-        Option_Flags(option, Flag_e::DISABLE, true);
-
-        struct VCallback : public V::Callback_t
+        class Waiter :
+            public V::Callback_t
         {
-            Config_Base_t* self;
-            Int_t option;
-            UCallback_t* ucallback;
-            VCallback(Config_Base_t* self, Int_t option, UCallback_t* ucallback) :
-                self(self), option(option), ucallback(ucallback)
+        public:
+            Config_Base_t*  self;
+            Int_t           option;
+            Callback        callback;
+
+        public:
+            Waiter(Config_Base_t* self, Int_t option, Callback callback) :
+                self(self), option(option), callback(std::move(callback))
             {
             }
-            void operator()(V::Variable_t*)
+
+        public:
+            void operator ()(V::Variable_t*)
             {
-                if (self->Current_State() != State_e::RESET) {
-                    self->Option_Flags(option, Flag_e::NONE, true); // this can cause a crash if the menu is closed before hand
+                if (this->self->Current_State() != State_e::RESET) {
+                    // this can cause a crash if the menu is closed before hand
+                    this->self->Option_Flags(this->option, Flag_e::NONE, true);
                 }
 
-                if (ucallback) {
-                    ucallback->operator()();
-                    delete ucallback;
+                if (this->callback) {
+                    (*this->callback)();
                 }
             }
         };
-        V::Utils_t::Wait(0.2f, new VCallback(this, option, ucallback));
+
+        Option_Flags(option, Flag_e::DISABLE, true);
+        V::Utils_t::Wait(0.2f, new Waiter(this, option, std::move(callback)));
     }
 
     void Config_Base_t::Show_Message(String_t message,
                                      Bool_t allow_cancel,
                                      String_t accept_label,
                                      String_t cancel_label,
-                                     Callback_i<Bool_t>* user_callback)
+                                     maybe<unique<Callback_i<Bool_t>>> callback)
     {
-        using UCallback_t = Callback_i<Bool_t>;
+        using Callback = maybe<unique<Callback_i<Bool_t>>>;
+
+        class Waiter :
+            public V::Callback_t
+        {
+        public:
+            Config_Base_t*  self;
+            Callback        callback;
+
+        public:
+            Waiter(Config_Base_t* self, Callback callback) :
+                self(self), callback(std::move(callback))
+            {
+            }
+
+        public:
+            void operator ()(V::Variable_t*)
+            {
+                if (this->self->Is_Waiting_For_Message()) {
+                    V::Utils_t::Wait(0.1f, new Waiter(this->self, std::move(this->callback)));
+                } else {
+                    this->self->Unregister_Mod_Event("SKICP_messageDialogClosed");
+                    if (this->callback) {
+                        (*this->callback)(this->self->Message_Result());
+                    }
+                }
+            }
+        };
 
         if (!Is_Waiting_For_Message()) {
             Is_Waiting_For_Message() = true;
             Message_Result() = false;
+
+            Register_Mod_Event("SKICP_messageDialogClosed", "OnMessageDialogClose");
 
             Vector_t<String_t> args;
             args.reserve(3);
@@ -535,35 +570,12 @@ namespace doticu_mcmlib {
             } else {
                 args.push_back("");
             }
-
-            Register_Mod_Event("SKICP_messageDialogClosed", "OnMessageDialogClose");
             UI_t::Run(JOURNAL_MENU, "_root.ConfigPanelFader.configPanel" ".showMessageDialog", args);
 
-            struct Waiter : V::Callback_t {
-                Config_Base_t* self;
-                UCallback_t* user_callback;
-                Waiter(Config_Base_t* self, UCallback_t* user_callback) :
-                    self(self), user_callback(user_callback)
-                {
-                }
-                void operator()(V::Variable_t*)
-                {
-                    if (self->Is_Waiting_For_Message()) {
-                        V::Utils_t::Wait(0.1f, new Waiter(self, user_callback));
-                    } else {
-                        self->Unregister_Mod_Event("SKICP_messageDialogClosed");
-                        if (user_callback) {
-                            user_callback->operator()(self->Message_Result());
-                            delete user_callback;
-                        }
-                    }
-                }
-            };
-            V::Utils_t::Wait(0.1f, new Waiter(this, user_callback));
+            V::Utils_t::Wait(0.1f, new Waiter(this, std::move(callback)));
         } else {
-            if (user_callback) {
-                user_callback->operator()(false);
-                delete user_callback;
+            if (callback) {
+                (*callback)(false);
             }
         }
     }
@@ -576,63 +588,6 @@ namespace doticu_mcmlib {
     void Config_Base_t::Unlock()
     {
         UI_t::Run(JOURNAL_MENU, "_root.ConfigPanelFader.configPanel" ".unlock", true);
-    }
-
-    void Config_Base_t::Open_Page(String_t page_name)
-    {
-        if (Current_State() == State_e::RESET) {
-            struct VCallback : public V::Callback_t {
-                Config_Base_t* self;
-                String_t page_name;
-                VCallback(Config_Base_t* self, String_t page_name) :
-                    self(self), page_name(page_name)
-                {
-                }
-                void operator()(V::Variable_t*)
-                {
-                    self->Open_Page(page_name);
-                }
-            };
-            V::Utils_t::Wait(0.1f, new VCallback(this, page_name));
-        } else {
-            Current_Page(page_name);
-            if (page_name && page_name.data && page_name.data[0]) {
-                Title_Text(page_name);
-            } else {
-                Title_Text(Mod_Name());
-            }
-
-            Current_State() = State_e::RESET;
-            Clear_Buffers();
-
-            struct VArguments : public V::Arguments_t {
-                String_t page_name;
-                VArguments(String_t page_name) :
-                    page_name(page_name)
-                {
-                }
-                Bool_t operator()(skylib::Buffer_t<V::Variable_t>* arguments)
-                {
-                    arguments->Resize(1);
-                    arguments->At(0)->String(page_name);
-                    return true;
-                }
-            } varguments(page_name);
-            struct VCallback : public V::Callback_t {
-                Config_Base_t* self;
-                VCallback(Config_Base_t* self) :
-                    self(self)
-                {
-                }
-                void operator()(V::Variable_t*)
-                {
-                    self->Write_Buffers();
-                    self->Current_State() = State_e::DEFAULT;
-                }
-            };
-            V::Callback_i* vcallback = new VCallback(this);
-            V::Machine_t::Self()->Call_Method(this, Class_Name(), "OnPageReset", &varguments, &vcallback);
-        }
     }
 
     void Config_Base_t::Register_Me(some<V::Machine_t*> machine)

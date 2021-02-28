@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include "doticu_skylib/interface.h"
 #include "doticu_skylib/quest.h"
+#include "doticu_skylib/unique.h"
 
 #include "doticu_mcmlib/intrinsic.h"
 
@@ -172,17 +174,16 @@ namespace doticu_mcmlib {
         void        Disable_Option(Int_t option, Bool_t do_render = true);
         void        Show_Option(Int_t option, Bool_t do_render = true, Bool_t with_unmap = false);
         void        Hide_Option(Int_t option, Bool_t do_render = true);
-        void        Flicker_Option(Int_t option, Callback_i<>* ucallback = nullptr);
+        void        Flicker_Option(Int_t option, maybe<unique<Callback_i<>>> callback = nullptr);
 
         void        Show_Message(String_t message,
                                  Bool_t allow_cancel = true,
                                  String_t accept_label = "$Accept",
                                  String_t cancel_label = "$Cancel",
-                                 Callback_i<Bool_t>* user_callback = nullptr);
+                                 maybe<unique<Callback_i<Bool_t>>> callback = nullptr);
 
         void        Reset_Page();
         void        Unlock();
-        void        Open_Page(String_t page_name);
 
     public:
         static void Register_Me(some<V::Machine_t*> machine);
