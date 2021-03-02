@@ -54,7 +54,7 @@ namespace doticu_mcmlib {
         using Machine_t         = skylib::Virtual::Machine_t;
         using Object_t          = skylib::Virtual::Object_t;
         using Variable_t        = skylib::Virtual::Variable_t;
-        using Utils_t           = skylib::Virtual::Utils_t;
+        using Utility_t         = skylib::Virtual::Utility_t;
 
         template <typename T>
         using Variable_tt       = skylib::Virtual::Variable_tt<T>;

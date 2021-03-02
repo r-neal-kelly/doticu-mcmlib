@@ -15,7 +15,7 @@
 #include "doticu_skylib/virtual_machine.h"
 #include "doticu_skylib/virtual_macros.h"
 #include "doticu_skylib/virtual_object.h"
-#include "doticu_skylib/virtual_utils.h"
+#include "doticu_skylib/virtual_utility.h"
 #include "doticu_skylib/virtual_variable.h"
 
 #include "doticu_mcmlib/config_base.h"
@@ -517,7 +517,7 @@ namespace doticu_mcmlib {
         };
 
         Option_Flags(option, Flag_e::DISABLE, true);
-        V::Utils_t::Wait(0.2f, new Waiter(this, option, std::move(callback)));
+        V::Utility_t::Wait_Even_In_Menu(0.2f, new Waiter(this, option, std::move(callback)));
     }
 
     void Config_Base_t::Show_Message(String_t message,
@@ -545,7 +545,7 @@ namespace doticu_mcmlib {
             void operator ()(V::Variable_t*)
             {
                 if (this->self->Is_Waiting_For_Message()) {
-                    V::Utils_t::Wait(0.1f, new Waiter(this->self, std::move(this->callback)));
+                    V::Utility_t::Wait_Even_In_Menu(0.1f, new Waiter(this->self, std::move(this->callback)));
                 } else {
                     this->self->Unregister_Mod_Event("SKICP_messageDialogClosed");
                     if (this->callback) {
@@ -572,7 +572,7 @@ namespace doticu_mcmlib {
             }
             UI_t::Run(JOURNAL_MENU, "_root.ConfigPanelFader.configPanel" ".showMessageDialog", args);
 
-            V::Utils_t::Wait(0.1f, new Waiter(this, std::move(callback)));
+            V::Utility_t::Wait_Even_In_Menu(0.1f, new Waiter(this, std::move(callback)));
         } else {
             if (callback) {
                 (*callback)(false);

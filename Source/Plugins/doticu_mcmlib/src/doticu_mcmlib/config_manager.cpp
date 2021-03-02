@@ -13,7 +13,7 @@
 #include "doticu_skylib/virtual_machine.h"
 #include "doticu_skylib/virtual_macros.h"
 #include "doticu_skylib/virtual_object.h"
-#include "doticu_skylib/virtual_utils.h"
+#include "doticu_skylib/virtual_utility.h"
 #include "doticu_skylib/virtual_variable.h"
 
 #include "doticu_mcmlib/consts.h"
