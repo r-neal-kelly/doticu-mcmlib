@@ -233,8 +233,6 @@ namespace doticu_mcmlib {
 
     Int_t Config_Base_t::Add_Option(Option_e option_type, String_t label, String_t string, Float_t number, Flag_e flags)
     {
-        SKYLIB_ASSERT(label.data);
-        SKYLIB_ASSERT(string.data);
         SKYLIB_ASSERT(Current_State() == State_e::RESET);
 
         Int_t position = Current_Cursor_Position();
@@ -547,7 +545,7 @@ namespace doticu_mcmlib {
                 if (this->self->Is_Waiting_For_Message()) {
                     V::Utility_t::Wait_Even_In_Menu(0.1f, new Waiter(this->self, std::move(this->callback)));
                 } else {
-                    this->self->Unregister_Mod_Event("SKICP_messageDialogClosed");
+                    this->self->Unregister_SKSE_Event("SKICP_messageDialogClosed", none<V::Callback_i*>());
                     if (this->callback) {
                         (*this->callback)(this->self->Message_Result());
                     }
@@ -559,7 +557,7 @@ namespace doticu_mcmlib {
             Is_Waiting_For_Message() = true;
             Message_Result() = false;
 
-            Register_Mod_Event("SKICP_messageDialogClosed", "OnMessageDialogClose");
+            Register_SKSE_Event("SKICP_messageDialogClosed", "OnMessageDialogClose", none<V::Callback_i*>());
 
             Vector_t<String_t> args;
             args.reserve(3);
