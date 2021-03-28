@@ -123,7 +123,7 @@ namespace doticu_mcmlib {
     {
         V::Array_t* flags = Flags().Array();
         if (flags) {
-            for (Index_t idx = 0, count = flags->count; idx < count; idx += 1) {
+            for (size_t idx = 0, count = flags->count; idx < count; idx += 1) {
                 auto var = static_cast<V::Variable_tt<Int_t>*>(flags->Point(idx));
                 if (var) {
                     *var = 0;
@@ -136,7 +136,7 @@ namespace doticu_mcmlib {
     {
         V::Array_t* labels = Labels().Array();
         if (labels) {
-            for (Index_t idx = 0, count = labels->count; idx < count; idx += 1) {
+            for (size_t idx = 0, count = labels->count; idx < count; idx += 1) {
                 auto var = static_cast<V::Variable_tt<String_t>*>(labels->Point(idx));
                 if (var) {
                     *var = "";
@@ -149,7 +149,7 @@ namespace doticu_mcmlib {
     {
         V::Array_t* strings = Strings().Array();
         if (strings) {
-            for (Index_t idx = 0, count = strings->count; idx < count; idx += 1) {
+            for (size_t idx = 0, count = strings->count; idx < count; idx += 1) {
                 auto var = static_cast<V::Variable_tt<String_t>*>(strings->Point(idx));
                 if (var) {
                     *var = "";
@@ -162,7 +162,7 @@ namespace doticu_mcmlib {
     {
         V::Array_t* numbers = Floats().Array();
         if (numbers) {
-            for (Index_t idx = 0, count = numbers->count; idx < count; idx += 1) {
+            for (size_t idx = 0, count = numbers->count; idx < count; idx += 1) {
                 auto var = static_cast<V::Variable_tt<Float_t>*>(numbers->Point(idx));
                 if (var) {
                     *var = 0.0f;
@@ -175,7 +175,7 @@ namespace doticu_mcmlib {
     {
         V::Array_t* states = States().Array();
         if (states) {
-            for (Index_t idx = 0, count = states->count; idx < count; idx += 1) {
+            for (size_t idx = 0, count = states->count; idx < count; idx += 1) {
                 auto var = static_cast<V::Variable_tt<String_t>*>(states->Point(idx));
                 if (var) {
                     *var = "";

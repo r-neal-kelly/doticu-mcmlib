@@ -37,7 +37,7 @@ namespace doticu_mcmlib {
         V::Array_t* config_names = Config_Names().Array();
         V::Array_t* config_bases = Config_Bases().Array();
         if (config_names && config_bases && config_names->count == config_bases->count) {
-            for (Index_t idx = 0, end = config_bases->count; idx < end; idx += 1) {
+            for (size_t idx = 0, end = config_bases->count; idx < end; idx += 1) {
                 V::Variable_t* config_base_variable = config_bases->Point(idx);
                 if (config_base_variable && config_base_variable->As<Config_Base_t*>() == config_base()) {
                     V::Variable_t* config_name_variable = config_names->Point(idx);

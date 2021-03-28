@@ -20,8 +20,6 @@ namespace doticu_mcmlib {
     using Float_t       = skylib::Float_t;
     using String_t      = skylib::String_t;
 
-    using Index_t       = skylib::Index_t;
-
     template <typename T>
     using none          = skylib::none<T>;
     template <typename T>
